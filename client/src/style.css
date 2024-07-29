@@ -1,0 +1,31 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --clr-main: #fff;
+  --clr-primary: #a91386;
+  --clr-secondary: #ffb703;
+  --clr-white: #ffffff;
+  --clr-grey: #ddd;
+  --clr-grey-1: #eee;
+  --clr-black: #222;
+  --max-width: 1170px;
+  --light-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  --dark-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  --transition: all 0.3s linear;
+  --radius: 0.25rem;
+  --spacing: 0.1rem;
+}
+
+@layer base {
+  body {
+    @apply bg-gray-100;
+  }
+}
+
+@layer component {
+  .btn-primary {
+    @apply px-4 py-2 font-medium bg-[--var(clr-primary)] text-white;
+  }
+}
