@@ -1,9 +1,9 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const domainSchema = new mongoose.Schema({
-  nama: { type: String, required: true },
-  description: { type: String },
+  kode: { type: String, required: true, max: 50 },
+  nama: { type: String, required: true, max: 50 },
+  deskripsi: { type: String },
 });
 
-const Domain = mongoose.model("Domain", domainSchema);
-module.exports = Domain;
+export default mongoose.model("Domain", domainSchema);

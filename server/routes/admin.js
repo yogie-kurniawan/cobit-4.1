@@ -1,13 +1,13 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const {
+import {
   getAdmins,
   getAdmin,
   createAdmin,
   updateAdmin,
   deleteAdmin,
-} = require("../controllers/admin");
-const authenticateAdmin = require("../middleware/authenticateAdmin");
+} from "../controllers/admin.js";
+import authenticateAdmin from "../middleware/authenticateAdmin.js";
 
 router.get("/", authenticateAdmin, getAdmins);
 router.get("/:id", authenticateAdmin, getAdmin);

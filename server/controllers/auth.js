@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken");
-const bcrypt = require("bcryptjs");
-const Admin = require("../models/User");
+import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
+import Admin from "../models/Admin.js";
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
 export const getRegister = (req, res) => {

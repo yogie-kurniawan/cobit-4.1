@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const GapSchema = mongoose.Schema(
   {
@@ -22,4 +22,4 @@ const GapSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Gap", GapSchema);
+export default mongoose.model("Gap", GapSchema);

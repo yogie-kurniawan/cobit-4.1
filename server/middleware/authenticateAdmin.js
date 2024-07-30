@@ -1,6 +1,6 @@
-const User = require("../models/User");
-const jwt = require("jsonwebtoken");
-const { UnauthenticatedError } = require("../errors");
+import User from "../models/User.js";
+import jwt from "jsonwebtoken";
+import { UnauthenticatedError } from "../errors/index.js";
 
 const auth = async (req, res, next) => {
   // check header

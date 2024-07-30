@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const prosesSchema = new mongoose.Schema({
   domain: {
@@ -6,9 +6,9 @@ const prosesSchema = new mongoose.Schema({
     ref: "Domain",
     required: true,
   },
+  kode: { type: String, required: true },
   nama: { type: String, required: true },
   description: { type: String },
 });
 
-const Proses = mongoose.model("Proses", prosesSchema);
-module.exports = Proses;
+export default mongoose.model("Proses", prosesSchema);

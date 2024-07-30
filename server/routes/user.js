@@ -7,7 +7,7 @@ import {
   updateUser,
   deleteUser,
 } from "../controllers/user.js";
-const authenticateAdmin = require("../middleware/authenticateAdmin");
+import authenticateAdmin from "../middleware/authenticateAdmin.js";
 
 router.get("/", authenticateAdmin, getUsers);
 router.get("/:id", authenticateAdmin, getUser);

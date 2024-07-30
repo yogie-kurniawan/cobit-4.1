@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 
 const IndexSchema = mongoose.Schema(
   {
@@ -22,4 +22,4 @@ const IndexSchema = mongoose.Schema(
   { timestamps: true }
 );
 
-module.exports = mongoose.model("Index", IndexSchema);
+export default mongoose.model("Index", IndexSchema);

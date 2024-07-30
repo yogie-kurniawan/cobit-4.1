@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import { menu } from "../../data/admin/data";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { RxDashboard } from "react-icons/rx";
 import SidebarContext from "../../contexts/admin/SidebarContext";
 
@@ -42,8 +42,10 @@ function Sidebar() {
       } h-screen fixed top-0 left-0 bg-white text-primary shadow-md overflow-x-hidden overflow-y-auto duration-300 ease-in`}
     >
       <div className="flex gap-3 flex-col p-4">
-        <div>
-          <h1 className="text-lg">COBIT 4.1</h1>
+        <div className="text-center">
+          <Link to="/admin">
+            <h1 className="text-xl">COBIT 4.1</h1>
+          </Link>
         </div>
         <div className="overflow-y-auto overflow-x-hidden py-4">
           <ul className="w-full flex flex-col capitalize">
@@ -64,7 +66,7 @@ function Sidebar() {
           </ul>
           {menu.map((menuItem, index) => (
             <div key={index}>
-              <p className="text-sm font-semibold text-gray-400 my-3 uppercase">
+              <p className="text-xs font-semibold text-gray-400 my-3 uppercase">
                 {menuItem.title}
               </p>
               <ul className="w-full flex flex-col capitalize">
