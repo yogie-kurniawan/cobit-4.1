@@ -1,4 +1,6 @@
 import User from "../models/User.js";
+import mongoose from "mongoose";
+import hashPassword from "../utils/hashPassword.js";
 
 export const getUsers = async (req, res) => {
   try {
@@ -28,14 +30,15 @@ export const getUser = async (req, res) => {
 };
 
 export const createUser = async (req, res) => {
-  const { nama, username, email, password } = req.body;
-  const newUser = new User({ nama, username, email, password });
+  let { nama, username, email, password } = req.body;
 
   try {
+    password = await hashPassword(password);
+    const newUser = new User({ nama, username, email, password });
     await newUser.save();
     return res
       .status(201)
-      .json({ User: newUser, message: "Berhasil menyimpan User!" });
+      .json({ user: newUser, message: "Berhasil menyimpan User!" });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: error.message });
@@ -44,12 +47,13 @@ export const createUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   const { id: _id } = req.params;
-  const { nama, username, email, password } = req.body;
+  let { nama, username, email, password } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(_id))
     return res.status(404).json({ message: "Id tidak valid!" });
 
   try {
+    password = await hashPassword(password);
     const updatedUser = await User.findByIdAndUpdate(
       _id,
       { nama, username, email, password },
@@ -58,7 +62,7 @@ export const updateUser = async (req, res) => {
       }
     );
     return res.status(200).json({
-      User: updatedUser,
+      user: updatedUser,
       message: "Berhasil memperbaharui User!",
     });
   } catch (error) {

@@ -1,8 +1,32 @@
 import Answer from "../models/Answer.js";
+import mongoose from "mongoose";
 
 export const getAnswers = async (req, res) => {
   try {
-    const answers = await Answer.find({});
+    const answers = await Answer.aggregate([
+      {
+        $lookup: {
+          from: "users",
+          localField: "idUser",
+          foreignField: "_id",
+          as: "user",
+        },
+      },
+      {
+        $unwind: "$user",
+      },
+      {
+        $lookup: {
+          from: "proses",
+          localField: "idProses",
+          foreignField: "_id",
+          as: "proses",
+        },
+      },
+      {
+        $unwind: "$proses",
+      },
+    ]);
     return res
       .status(200)
       .json({ answers, message: "Berhasil menangkap semua pertanyaan!" });

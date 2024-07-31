@@ -4,7 +4,7 @@ import Admin from "../models/Admin.js";
 const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
 export const getRegister = (req, res) => {
-  return res.render("pages/register");
+  return res.send("pages/register");
 };
 
 export const postRegister = async (req, res) => {
@@ -57,7 +57,7 @@ export const postRegister = async (req, res) => {
 };
 
 export const getLogin = (req, res) => {
-  return res.render("pages/login");
+  return res.send("pages/login");
 };
 
 export const postLogin = async (req, res) => {
@@ -67,7 +67,7 @@ export const postLogin = async (req, res) => {
   if (!password) errors.push({ msg: "Password is required" });
 
   if (errors.length > 0) {
-    return res.render("pages/login", {
+    return res.send("pages/login", {
       errors,
       username,
     });

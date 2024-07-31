@@ -2,8 +2,8 @@ import mongoose from "mongoose";
 
 const QuestionSchema = mongoose.Schema(
   {
-    kodeIndikator: {
-      type: String,
+    idProses: {
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
     },
     pertanyaan: {

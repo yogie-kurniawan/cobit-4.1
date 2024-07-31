@@ -1,7 +1,7 @@
 import Dashboard from "./Dashboard";
 import NotFound from "./NotFound";
-import Pertanyaan from "./Pertanyaan";
+import Question from "./Question";
 import Profile from "./Profile";
 import Responden from "./Responden";
 
-export { Dashboard, NotFound, Pertanyaan, Profile, Responden };
+export { Dashboard, NotFound, Question, Profile, Responden };

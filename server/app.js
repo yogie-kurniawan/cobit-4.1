@@ -2,46 +2,42 @@ import dotenv from "dotenv";
 dotenv.config();
 import express from "express";
 import connectDB from "./db/connect.js";
-import cookie from "cookie-parser";
-import session from "express-session";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
+
 // Routers
-import authRoute from "./routes/auth.js";
-import adminRoute from "./routes/admin.js";
-import userRoute from "./routes/user.js";
-import questionRoute from "./routes/question.js";
-import answerRoute from "./routes/answer.js";
-import gapRoute from "./routes/gap.js";
-import notFoundRoute from "./routes/not-found.js";
+import {
+  authRoute,
+  adminRoute,
+  userRoute,
+  domainRoute,
+  processRoute,
+  questionRoute,
+  answerRoute,
+  gapRoute,
+  notFoundRoute,
+} from "./routes/index.js";
+
 const app = express();
 
 // Middleware
-app.use(express.static(__dirname + "/public"));
-// Cookie
-app.use(cookie());
-// Session
-app.use(
-  session({
-    secret: process.env.SESSION_SECRET,
-  })
-);
+// app.use(express.static(__dirname + "/public"));
 
 // Parse JSON
 app.use(express.json());
-// Parse Form Data
-app.use(express.urlencoded({ extended: true }));
 
 // Routes
 app.use("/api/auth", authRoute);
-app.use("/api/user", userRoute);
-app.use("/api/admin", adminRoute);
-app.use("/api/pertanyaan", questionRoute);
-app.use("/api/jawaban", answerRoute);
-app.use("/api/gap", gapRoute);
+app.use("/api/users", userRoute);
+app.use("/api/admins", adminRoute);
+app.use("/api/domains", domainRoute);
+app.use("/api/processes", processRoute);
+app.use("/api/questions", questionRoute);
+app.use("/api/answers", answerRoute);
+app.use("/api/gaps", gapRoute);
 app.use("*", notFoundRoute);
 
 const port = process.env.PORT || 3000;

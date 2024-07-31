@@ -1,11 +1,11 @@
 import React from "react";
 
-const Button = ({ bgColor, color, borderRadius, text, size }) => {
+const Button = ({ bgColor, color, text, size }) => {
   return (
     <button
       type="button"
-      style={{ backgroundColor: bgColor, color, borderRadius }}
-      className={`text-${size}`}
+      style={{ backgroundColor: bgColor, color }}
+      className={`text-${size} rounded-full`}
     >
       {text}
     </button>

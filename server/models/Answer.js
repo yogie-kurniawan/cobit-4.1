@@ -12,17 +12,9 @@ const AnswerSchema = mongoose.Schema(
       ref: "Pertanyaan",
       required: true,
     },
-    kodeIndikator: {
-      type: String,
-      required: true,
-    },
-    nilaiHuruf: {
-      type: String,
-      required: true,
-    },
-    nilaiAngka: {
+    nilai: {
       type: Number,
-      required: true,
+      max: 5,
     },
   },
   { timestamps: true }

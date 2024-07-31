@@ -1,80 +1,77 @@
-import Question from "../models/Question.js";
+import Process from "../models/Process.js";
 import mongoose from "mongoose";
 
-export const getQuestions = async (req, res) => {
+export const getProcesss = async (req, res) => {
   try {
-    const questions = await Question.aggregate([
+    const processes = await Process.aggregate([
       {
         $lookup: {
-          from: "proses",
-          localField: "idProses",
+          from: "domains",
+          localField: "idDomain",
           foreignField: "_id",
-          as: "proses",
+          as: "domain",
         },
       },
       {
-        $unwind: "$proses",
+        $unwind: "$domain",
       },
     ]);
     return res
       .status(200)
-      .json({ questions, message: "Berhasil menangkap semua pertanyaan!" });
+      .json({ processes, message: "Berhasil menangkap semua proses!" });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: error.message });
   }
 };
 
-export const getQuestion = async (req, res) => {
+export const getProcess = async (req, res) => {
   const { id: _id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(_id))
     return res.status(404).json({ message: "Id tidak valid!" });
 
   try {
-    const question = await Question.aggregate([
+    const process = await Process.aggregate([
       {
         $match: { _id: new mongoose.Types.ObjectId(_id) },
       },
       {
         $lookup: {
-          from: "proses",
-          localField: "idProses",
+          from: "domains",
+          localField: "idDomain",
           foreignField: "_id",
-          as: "proses",
+          as: "domain",
         },
       },
       {
-        $unwind: "$proses",
+        $unwind: "$domain",
       },
     ]);
-
-    if (question.length === 0) {
+    if (process.length === 0) {
       return res.status(404).json({
         message: "Pertanyaan tidak ditemukan!",
       });
     }
-    const firstQuestion = question[0];
-
-    return res.status(200).json({
-      question: firstQuestion,
-      message: "Berhasil menangkap pertanyaan!",
-    });
+    const firstProcess = process[0];
+    return res
+      .status(200)
+      .json({ process: firstProcess, message: "Berhasil menangkap proses!" });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: error.message });
   }
 };
 
-export const createQuestion = async (req, res) => {
-  const { proses, pertanyaan } = req.body;
-  const newQuestion = new Question({ idProses: proses, pertanyaan });
+export const createProcess = async (req, res) => {
+  const { idDomain, kode, nama, deskripsi } = req.body;
+  const newProcess = new Process({ idDomain, kode, nama, deskripsi });
 
   try {
-    await newQuestion.save();
+    await newProcess.save();
     return res.status(201).json({
-      question: newQuestion,
-      message: "Berhasil menyimpan pertanyaan!",
+      process: newProcess,
+      message: "Berhasil menyimpan proses!",
     });
   } catch (error) {
     console.log(error);
@@ -82,24 +79,24 @@ export const createQuestion = async (req, res) => {
   }
 };
 
-export const updateQuestion = async (req, res) => {
+export const updateProcess = async (req, res) => {
   const { id: _id } = req.params;
-  const { kodeIndikator, pertanyaan } = req.body;
+  const { kodeIndikator, Process } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(_id))
     return res.status(404).json({ message: "Id tidak valid!" });
 
   try {
-    const updatedQuestion = await Question.findByIdAndUpdate(
+    const updatedProcess = await Process.findByIdAndUpdate(
       _id,
-      { kodeIndikator, pertanyaan },
+      { kodeIndikator, Process },
       {
         new: true,
       }
     );
     return res.status(200).json({
-      question: updatedQuestion,
-      message: "Berhasil memperbaharui pertanyaan!",
+      process: updatedProcess,
+      message: "Berhasil memperbaharui proses!",
     });
   } catch (error) {
     console.log(error);
@@ -107,15 +104,15 @@ export const updateQuestion = async (req, res) => {
   }
 };
 
-export const deleteQuestion = async (req, res) => {
+export const deleteProcess = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id))
     return res.status(404).json({ message: "Id tidak valid!" });
 
   try {
-    await Question.findByIdAndDelete(id);
-    res.status(200).json({ message: "Berhasil menghapus pertanyaan!" });
+    await Process.findByIdAndDelete(id);
+    res.status(200).json({ message: "Berhasil menghapus proses!" });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: error.message });

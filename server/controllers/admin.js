@@ -1,4 +1,6 @@
 import Admin from "../models/Admin.js";
+import hashPassword from "../utils/hashPassword.js";
+import mongoose from "mongoose";
 
 export const getAdmins = async (req, res) => {
   try {
@@ -33,10 +35,12 @@ export const getAdmin = async (req, res) => {
 };
 
 export const createAdmin = async (req, res) => {
-  const { nama, username, email, password } = req.body;
-  const newAdmin = new Admin({ nama, username, email, password });
+  let { nama, username, email, password } = req.body;
 
   try {
+    password = await hashPassword(password);
+    const newAdmin = new Admin({ nama, username, email, password });
+
     await newAdmin.save();
     return res
       .status(201)
@@ -49,12 +53,13 @@ export const createAdmin = async (req, res) => {
 
 export const updateAdmin = async (req, res) => {
   const { id: _id } = req.params;
-  const { nama, username, email, password } = req.body;
+  let { nama, username, email, password } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(_id))
     return res.status(404).json({ message: "Id tidak valid!" });
 
   try {
+    password = await hashPassword(password);
     const updatedAdmin = await Admin.findByIdAndUpdate(
       _id,
       { nama, username, email, password },

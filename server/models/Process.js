@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 const prosesSchema = new mongoose.Schema({
-  domain: {
+  idDomain: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "Domain",
     required: true,
