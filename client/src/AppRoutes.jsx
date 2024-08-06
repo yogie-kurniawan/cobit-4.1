@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import MainLayout from "./layouts/MainLayout";
+import MainLayout from "./layouts/Main/MainLayout";
 import AdminLayout from "./layouts/Admin/Layout";
 import MainRoute from "./routes/Main";
 import AdminRoute from "./routes/Admin";

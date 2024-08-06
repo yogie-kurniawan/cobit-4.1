@@ -5,6 +5,7 @@ import domainRoute from "./domain.js";
 import processRoute from "./process.js";
 import questionRoute from "./question.js";
 import answerRoute from "./answer.js";
+import indexMLRoute from "./indexML.js";
 import gapRoute from "./gap.js";
 import notFoundRoute from "./not-found.js";
 
@@ -16,6 +17,7 @@ export {
   processRoute,
   questionRoute,
   answerRoute,
+  indexMLRoute,
   gapRoute,
   notFoundRoute,
 };

@@ -33,7 +33,6 @@ function Sidebar() {
     } else {
       setIsSidebarOpen(true);
     }
-    console.log(screenSize);
   }, [screenSize]);
   return (
     <div
@@ -44,7 +43,7 @@ function Sidebar() {
       <div className="flex gap-3 flex-col p-4">
         <div className="text-center">
           <Link to="/admin">
-            <h1 className="text-xl">COBIT 4.1</h1>
+            <h1 className="text-xl text-nowrap">COBIT 4.1</h1>
           </Link>
         </div>
         <div className="overflow-y-auto overflow-x-hidden py-4">
@@ -55,8 +54,8 @@ function Sidebar() {
                 onClick={handleCloseSidebar}
                 className={({ isActive, isPending }) =>
                   isActive
-                    ? "w-full flex gap-3 items-center py-2 px-3 rounded  duration-300 ease-in cursor-pointer text-sm font-[400] text-white bg-primary"
-                    : "w-full flex gap-3 items-center py-2 px-3 rounded  duration-300 ease-in cursor-pointer text-sm font-[400] text-gray-600 hover:bg-primary hover:text-white"
+                    ? "w-full flex gap-3 items-center py-2 px-3 rounded  duration-300 ease-in cursor-pointer text-sm font-[400] text-white text-nowrap bg-primary"
+                    : "w-full flex gap-3 items-center py-2 px-3 rounded  duration-300 ease-in cursor-pointer text-sm font-[400] text-gray-600 text-nowrap hover:bg-primary hover:text-white"
                 }
               >
                 <RxDashboard size={20} />
@@ -66,7 +65,7 @@ function Sidebar() {
           </ul>
           {menu.map((menuItem, index) => (
             <div key={index}>
-              <p className="text-xs font-semibold text-gray-400 my-3 uppercase">
+              <p className="text-xs font-semibold text-gray-400 my-3 uppercase text-nowrap">
                 {menuItem.title}
               </p>
               <ul className="w-full flex flex-col capitalize">
@@ -80,8 +79,8 @@ function Sidebar() {
                         onClick={handleCloseSidebar}
                         className={({ isActive, isPending }) =>
                           isActive
-                            ? "w-full flex gap-3 items-center py-2 px-3 rounded  duration-300 ease-in cursor-pointer text-sm font-[400] text-white bg-primary"
-                            : "w-full flex gap-3 items-center py-2 px-3 rounded  duration-300 ease-in cursor-pointer text-sm font-[400] text-gray-600 hover:bg-primary hover:text-white"
+                            ? "w-full flex gap-3 items-center py-2 px-3 rounded  duration-300 ease-in cursor-pointer text-sm font-[400] text-white text-nowrap bg-primary"
+                            : "w-full flex gap-3 items-center py-2 px-3 rounded  duration-300 ease-in cursor-pointer text-sm font-[400] text-gray-600 text-nowrap hover:bg-primary hover:text-white"
                         }
                       >
                         {icon}

@@ -1,4 +1,4 @@
-@tailwind base;
+/* @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
@@ -28,4 +28,4 @@
   .btn-primary {
     @apply px-4 py-2 font-medium bg-[--var(clr-primary)] text-white;
   }
-}
+} */

@@ -4,6 +4,7 @@ import express from "express";
 import connectDB from "./db/connect.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
+import cors from "cors";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -17,6 +18,7 @@ import {
   processRoute,
   questionRoute,
   answerRoute,
+  indexMLRoute,
   gapRoute,
   notFoundRoute,
 } from "./routes/index.js";
@@ -24,6 +26,11 @@ import {
 const app = express();
 
 // Middleware
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 // app.use(express.static(__dirname + "/public"));
 
 // Parse JSON
@@ -37,6 +44,7 @@ app.use("/api/domains", domainRoute);
 app.use("/api/processes", processRoute);
 app.use("/api/questions", questionRoute);
 app.use("/api/answers", answerRoute);
+app.use("/api/indexes", indexMLRoute);
 app.use("/api/gaps", gapRoute);
 app.use("*", notFoundRoute);
 

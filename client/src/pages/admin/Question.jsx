@@ -1,70 +1,80 @@
-import * as React from "react";
-import {
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  TablePagination,
-} from "@mui/material";
+import React, { useState, useEffect } from "react";
 import Section from "../../components/admin/Section";
 import SectionTitle from "../../components/admin/SectionTitle";
 import Box from "../../components/admin/Box";
-import LinkButton from "../../components/admin/Link";
-const rows = [];
-
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
-}
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { deleteQuestion, getQuestions } from "../../features/admin/questions/questionSlice";
+import DataTable from "react-data-table-component"
+import { FaPenNib } from "react-icons/fa";
+import { FaTrashCan } from "react-icons/fa6";
 
 const Question = () => {
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const dispatch = useDispatch();
+  const questions = useSelector((state) => state.questions.questions.questions);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
+  const handleRowsPerPage = (newPerPage) => {
+    setRowsPerPage(newPerPage);
+  };
+
+  useEffect(() => {
+    dispatch(getQuestions());
+  }, [dispatch]);
+
+  const columns = [
+    {
+      name: "No.",
+      selector: (row, index) => index + 1, // Generates row numbers
+      width: "100px",
+    },
+    {
+      name: "Proses",
+      selector: (row) => row.proses.nama,
+      width: "100px",
+    },
+    {
+      name: "Pertanyaan",
+      selector: (row) => row.pertanyaan,
+    },
+    {
+      name: "Aksi",
+      cell: (row) => (
+        <div className="flex items-center gap-4">
+          <Link
+            
+          >
+            <FaPenNib size={15} className="text-green-500"/>
+          </Link>
+          <button
+            onClick={() => dispatch(deleteQuestion(row._id))}
+          >
+            <FaTrashCan size={15} className="text-red-500"/>
+          </button>
+        </div>
+      ),
+      width: "200px",
+    },
+  ];
+
   return (
     <Section>
       <SectionTitle title="Pertanyaan"></SectionTitle>
       <Box>
         <div className="mb-8">
           <div className="flex">
-            <LinkButton
-              to="/admin/questions/add"
-              text="Tambah"
-              variant="primary"
-              color="white"
-            ></LinkButton>
+            <Link to="/admin/questions/add" className="btn-sm-primary">
+              Tambah
+            </Link>
           </div>
         </div>
         <div>
-          <TableContainer component={Paper} className="w-full">
-            <Table sx={{ minWidth: 650 }} aria-label="simple table">
-              <TableHead>
-                <TableRow className="bg-gray-300">
-                  <TableCell className="font-bold">No.</TableCell>
-                  <TableCell className="font-bold">Pertanyaan</TableCell>
-                  <TableCell className="font-bold">Proses</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {[].map((row) => (
-                  <TableRow
-                    key={row.name}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell component="th" scope="row"></TableCell>
-                    <TableCell></TableCell>
-                    <TableCell></TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-              <TablePagination
-                component="div"
-                count={rows.length}
-                rowsPerPageOptions={[10, 50]}
-                rowsPerPage={rowsPerPage}
-              />
-            </Table>
-          </TableContainer>
+          <DataTable
+            columns={columns}
+            data={questions}
+            pagination
+            paginationPerPage={rowsPerPage}
+          />
         </div>
       </Box>
     </Section>

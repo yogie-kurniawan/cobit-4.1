@@ -54,20 +54,17 @@ export const getAnswer = async (req, res) => {
 };
 
 export const createAnswer = async (req, res) => {
-  const { idUser, idPertanyaan, kodeIndikator, nilaiHuruf, nilaiAngka } =
-    req.body;
+  const { user, pertanyaan, nilai } = req.body;
   const newAnswer = new Answer({
-    idUser,
-    idPertanyaan,
-    kodeIndikator,
-    nilaiHuruf,
-    nilaiAngka,
+    idUser: user,
+    idPertanyaan: pertanyaan,
+    nilai,
   });
 
   try {
     await newAnswer.save();
     return res.status(201).json({
-      Answer: newAnswer,
+      answer: newAnswer,
       message: "Berhasil menyimpan pertanyaan!",
     });
   } catch (error) {
