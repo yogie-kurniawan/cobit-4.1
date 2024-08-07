@@ -44,7 +44,7 @@ app.use("/api/domains", domainRoute);
 app.use("/api/processes", processRoute);
 app.use("/api/questions", questionRoute);
 app.use("/api/answers", answerRoute);
-app.use("/api/indexes", indexMLRoute);
+app.use("/api/maturity-levels", indexMLRoute);
 app.use("/api/gaps", gapRoute);
 app.use("*", notFoundRoute);
 

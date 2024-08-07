@@ -24,9 +24,9 @@ body {
   }
 }
 
-@layer component {
+@layer utilities {
   .btn-lg-primary {
-    @apply inline-block px-8 py-4 text-lg font-medium bg-primary !text-white rounded-[30px] hover:bg-primary-dark transition-all duration-300 ease-in;
+    @apply inline-block px-6 py-3 text-sm md:px-8 md:py-4 md:text-lg font-medium bg-primary !text-white rounded-[30px] hover:bg-primary-dark transition-all duration-300 ease-in;
   }
   .btn-sm-primary {
     @apply inline-block bg-primary px-4 py-2 !text-white rounded-[30px] text-sm font-medium hover:bg-primary-dark transition-all duration-300 ease-in;

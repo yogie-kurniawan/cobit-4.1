@@ -17,14 +17,14 @@ export const getAnswers = async (req, res) => {
       },
       {
         $lookup: {
-          from: "proses",
-          localField: "idProses",
+          from: "questions",
+          localField: "idPertanyaan",
           foreignField: "_id",
-          as: "proses",
+          as: "pertanyaan",
         },
       },
       {
-        $unwind: "$proses",
+        $unwind: "$pertanyaan",
       },
     ]);
     return res

@@ -29,17 +29,17 @@ const Navbar = () => {
 
   return (
     <nav
-      className={`fixed top-0 left-0 w-full ${
+      className={`relative w-full ${
         isScrolledDown ? "bg-white" : "bg-transparent"
-      }`}
+      } z-[1000]`}
     >
-      <div className="max-w-screen-xl mx-auto flex justify-between items-center text-gray-700 px-4 py-4">
+      <div className="relative max-w-screen-xl mx-auto flex justify-between items-center text-gray-700 px-4 py-4">
         <div>
           <a href="">
             <h1 className="text-2xl text-primary font-semibold">LTRW</h1>
           </a>
         </div>
-        <div className="relative flex gap-2">
+        <div className="relative hidden md:flex gap-2">
           <ul className="flex flex-col md:flex-row justify-center items-center gap-8">
             <li>
               <NavLink
@@ -67,7 +67,7 @@ const Navbar = () => {
             </li>
             <li></li>
           </ul>
-          <div className="flex items-center justify-center gap-4">
+          <div className="flex items-center justify-center gap-2">
             <a href="" className="btn-sm-primary">
               Login
             </a>
@@ -80,7 +80,51 @@ const Navbar = () => {
           </div>
         </div>
         <div className="flex md:hidden justify-center items-center">
-          <FaBars size={20} onClick={handleNavbar} />
+          <FaBars size={20} onClick={handleNavbar} className="cursor-pointer" />
+        </div>
+      </div>
+      <div
+        className={`absolute bottom-0 left-0 w-full h-screen bg-white z-[1001] ${
+          isNavbarOpen ? "flex" : "hidden"
+        } px-4 py-8 flex-col gap-2 `}
+      >
+        <ul className="flex flex-col md:flex-row justify-center items-center gap-8">
+          <li>
+            <NavLink
+              to="/"
+              className="text-gray-700 text-md font-medium hover:text-primary transition-all duration-300 ease-in"
+            >
+              Home
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/about"
+              className="text-gray-700 text-md font-medium hover:text-primary transition-all duration-300 ease-in"
+            >
+              About
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/survey"
+              className="text-gray-700 text-md font-medium hover:text-primary transition-all duration-300 ease-in"
+            >
+              Survey
+            </NavLink>
+          </li>
+          <li></li>
+        </ul>
+        <div className="flex items-center justify-center gap-2">
+          <a href="" className="btn-sm-primary">
+            Login
+          </a>
+          <a href="" className="btn-sm-secondary">
+            Register
+          </a>
+        </div>
+        <div className="absolute flex items-center justify-center md:hidden top-2 right-2">
+          <MdClose size={20} onClick={closeNavbar} />
         </div>
       </div>
     </nav>

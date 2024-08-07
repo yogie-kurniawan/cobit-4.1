@@ -16,6 +16,7 @@ export const getProcesss = async (req, res) => {
         $unwind: "$domain",
       },
     ]);
+    console.log(processes);
     return res
       .status(200)
       .json({ processes, message: "Berhasil menangkap semua proses!" });

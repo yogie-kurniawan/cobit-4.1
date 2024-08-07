@@ -3,7 +3,7 @@ import { Route } from "react-router-dom";
 import Home from "../pages/main/Home";
 import Kuisioner from "../pages/main/Kuisioner";
 
-const Main = () => {
+const MainRoute = () => {
   return (
     <>
       <Route index element={<Home />} />
@@ -12,4 +12,4 @@ const Main = () => {
   );
 };
 
-export default Main;
+export default MainRoute;

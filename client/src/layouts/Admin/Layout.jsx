@@ -13,7 +13,7 @@ const AdminLayout = () => {
       <main
         className={`${
           isSidebarOpen ? "ml-[250px]" : "ml-0"
-        } duration-300 ease-in bg-gray-50`}
+        } duration-300 ease-in bg-gray-100`}
         style={{
           width: `${isSidebarOpen ? "calc(100% - 250px)" : "100%"}`,
         }}

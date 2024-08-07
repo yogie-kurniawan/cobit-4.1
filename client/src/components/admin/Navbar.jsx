@@ -14,7 +14,7 @@ function Navbar() {
               className="toggle-btn inline-block text-gray-700"
               onClick={toggleSidebar}
             >
-              <HiBars3 size={20} className="text-primary" />
+              <HiBars3 size={24} className="text-primary font-bold" />
             </button>
           </div>
         </div>
