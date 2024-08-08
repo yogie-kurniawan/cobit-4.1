@@ -30,13 +30,24 @@ const Admin = () => {
         <p>Anda yakin ingin menghapus?</p>
         <button
           onClick={() => {
-            dispatch(deleteAdmin(id));
+            dispatch(deleteAdmin()).then((action) => {
+              if (deleteAdmin.fulfilled.match(action)) {
+                toast.success(action.payload.data.message);
+              } else if (deleteAdmin.rejected.match(action)) {
+                toast.error(
+                  `Gagal menghapus pertanyaan: ${action.error.message}`
+                );
+              }
+            });
             toast.dismiss(); // Dismiss the toast after confirmation
           }}
+          className="btn-sm-secondary"
         >
           Yes
         </button>
-        <button onClick={handleCancel}>No</button>
+        <button onClick={handleCancel} className="btn-sm-primary">
+          No
+        </button>
       </div>,
       {
         position: "top-right",
@@ -70,7 +81,7 @@ const Admin = () => {
     },
     {
       name: "No Handphone",
-      selector: (row) => row.nohp,
+      selector: (row) => row.noTelepon,
       width: "200px",
     },
     {
@@ -105,6 +116,7 @@ const Admin = () => {
           </div>
         </div>
         <div>
+          <ToastContainer />
           <DataTable
             columns={columns}
             data={admins}
@@ -112,7 +124,6 @@ const Admin = () => {
             paginationPerPage={rowsPerPage}
             onChangeRowsPerPage={handleRowsPerPage}
           />
-          {/* <ToastContainer /> */}
         </div>
       </Box>
     </Section>

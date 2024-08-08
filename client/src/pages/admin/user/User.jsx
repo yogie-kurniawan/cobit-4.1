@@ -105,6 +105,7 @@ const User = () => {
           </div>
         </div>
         <div>
+          <ToastContainer />
           <DataTable
             columns={columns}
             data={users}
@@ -112,7 +113,6 @@ const User = () => {
             paginationPerPage={rowsPerPage}
             onChangeRowsPerPage={handleRowsPerPage}
           />
-          {/* <ToastContainer /> */}
         </div>
       </Box>
     </Section>

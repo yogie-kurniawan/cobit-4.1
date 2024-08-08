@@ -4,7 +4,7 @@ import SectionTitle from "../../../components/admin/SectionTitle";
 import Box from "../../../components/admin/Box";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createQuestion } from "../../../features/admin/questionSlice";
+import { createAdmin } from "../../../features/admin/adminSlice";
 import { ToastContainer, toast } from "react-toastify";
 import Input from "../../../components/admin/Input";
 import Label from "../../../components/admin/Label";
@@ -12,27 +12,31 @@ import Select from "../../../components/admin/Select";
 import Textarea from "../../../components/admin/Textarea";
 import "react-toastify/dist/ReactToastify.css";
 
-const CreateQuestion = () => {
+const CreateAdmin = () => {
   const dispatch = useDispatch();
-  const prosesRef = useRef(null);
-  const pertanyaanRef = useRef(null);
+  const namaRef = useRef(null);
+  const usernameRef = useRef(null);
+  const noTelponRef = useRef(null);
+  const passwordRef = useRef(null);
 
   const handleSubmit = (e) => {
-    e.preventDefaault();
+    e.preventDefault();
     dispatch(
-      createQuestion({
-        proses: prosesRef.current.value,
-        pertanyaan: pertanyaanRef.current.value,
+      createAdmin({
+        nama: namaRef.current.value,
+        username: usernameRef.current.value,
+        noTelpon: noTelponRef.current.value,
+        password: passwordRef.current.value,
       })
     );
   };
   return (
     <Section>
-      <SectionTitle title="Tambah Pertanyaan"></SectionTitle>
+      <SectionTitle title="Tambah Admin"></SectionTitle>
       <Box>
         <div className="mb-8">
           <div className="flex">
-            <Link to="/admin/questions" className="btn-sm-primary">
+            <Link to="/admin/admins" className="btn-sm-primary">
               Kembali
             </Link>
           </div>
@@ -41,12 +45,44 @@ const CreateQuestion = () => {
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-12 gap-4">
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
-                <Label label="Pertanyaan" />
-                <Select ref={prosesRef}></Select>
+                <Label label="Nama" />
+                <Input
+                  type="text"
+                  placeholder="Masukkan nama..."
+                  ref={namaRef}
+                />
               </div>
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
-                <Label label="Pertanyaan" />
-                <Textarea ref={pertanyaanRef} />
+                <Label label="Username" />
+                <Input
+                  type="text"
+                  placeholder="Masukkan username..."
+                  ref={usernameRef}
+                />
+              </div>
+              <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
+                <Label label="No Telepon" />
+                <Input
+                  type="text"
+                  placeholder="Masukkan No Telepon..."
+                  ref={noTelponRef}
+                />
+              </div>
+              <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
+                <Label label="Password" />
+                <Input
+                  type="password"
+                  placeholder="Masukkan Password..."
+                  ref={passwordRef}
+                />
+              </div>
+              <div className="col-span-12 flex gap-1">
+                <button type="submit" className="btn-sm-primary">
+                  Simpan
+                </button>
+                <button type="reset" className="btn-sm-secondary">
+                  Reset
+                </button>
               </div>
             </div>
           </form>
@@ -56,4 +92,4 @@ const CreateQuestion = () => {
   );
 };
 
-export default CreateQuestion;
+export default CreateAdmin;

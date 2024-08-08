@@ -13,6 +13,7 @@ import { FaPenNib } from "react-icons/fa";
 import { FaTrashCan } from "react-icons/fa6";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { MdClose } from "react-icons/md";
 
 const Question = () => {
   const dispatch = useDispatch();
@@ -31,22 +32,35 @@ const Question = () => {
     toast(
       <div>
         <p>Anda yakin ingin menghapus?</p>
-        <button
-          onClick={() => {
-            dispatch(deleteQuestion(id));
-            toast.dismiss(); // Dismiss the toast after confirmation
-          }}
-        >
-          Yes
-        </button>
-        <button onClick={handleCancel}>No</button>
+        <div className="flex gap-2 mt-2">
+          <button
+            onClick={() => {
+              dispatch(deleteQuestion(id)).then((action) => {
+                if (deleteQuestion.fulfilled.match(action)) {
+                  toast.success(action.payload.message);
+                } else if (deleteQuestion.rejected.match(action)) {
+                  toast.error(
+                    `Gagal menghapus pertanyaan: ${action.error.message}`
+                  );
+                }
+              });
+              toast.dismiss(); // Dismiss the toast after confirmation
+            }}
+            className="btn-sm-secondary"
+          >
+            Yes
+          </button>
+          <button onClick={handleCancel} className="btn-sm-primary">
+            No
+          </button>
+        </div>
       </div>,
       {
         position: "top-right",
         autoClose: false,
         closeOnClick: false,
         draggable: false,
-        theme: "light",
+        theme: "colored",
       }
     );
   };
@@ -54,6 +68,7 @@ const Question = () => {
   const handleCancel = () => {
     toast.dismiss();
   };
+  const CloseButton = ({ closeToast }) => <MdClose onClick={closeToast} />;
 
   const columns = [
     {
@@ -63,7 +78,12 @@ const Question = () => {
     },
     {
       name: "Proses",
-      selector: (row) => row.proses.nama,
+      selector: (row) => {
+        if (row.process !== undefined) {
+          return row.process.nama;
+        }
+        return "";
+      },
       width: "200px",
     },
     {
@@ -103,7 +123,7 @@ const Question = () => {
           </div>
         </div>
         <div>
-          <ToastContainer />
+          <ToastContainer closeButton={CloseButton} />
           <DataTable
             columns={columns}
             data={questions}

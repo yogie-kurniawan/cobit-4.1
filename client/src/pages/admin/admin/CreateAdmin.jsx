@@ -16,19 +16,32 @@ const CreateAdmin = () => {
   const dispatch = useDispatch();
   const namaRef = useRef(null);
   const usernameRef = useRef(null);
-  const noTelponRef = useRef(null);
+  const noTeleponRef = useRef(null);
   const passwordRef = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(
-      createAdmin({
-        nama: namaRef.current.value,
-        username: usernameRef.current.value,
-        noTelpon: noTelponRef.current.value,
-        password: passwordRef.current.value,
+    const data = {
+      nama: namaRef.current.value,
+      username: usernameRef.current.value,
+      noTelepon: noTeleponRef.current.value,
+      password: passwordRef.current.value,
+    };
+    dispatch(createAdmin(data))
+      .then((response) => {
+        toast.success(response.payload.data.message);
+        clearForm();
       })
-    );
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  };
+
+  const clearForm = () => {
+    namaRef.current.value = "";
+    usernameRef.current.value = "";
+    noTeleponRef.current.value = "";
+    passwordRef.current.value = "";
   };
   return (
     <Section>
@@ -42,6 +55,7 @@ const CreateAdmin = () => {
           </div>
         </div>
         <div>
+          <ToastContainer />
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-12 gap-4">
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
@@ -65,7 +79,7 @@ const CreateAdmin = () => {
                 <Input
                   type="text"
                   placeholder="Masukkan No Telepon..."
-                  ref={noTelponRef}
+                  ref={noTeleponRef}
                 />
               </div>
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">

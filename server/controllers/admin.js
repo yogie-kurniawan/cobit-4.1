@@ -35,11 +35,11 @@ export const getAdmin = async (req, res) => {
 };
 
 export const createAdmin = async (req, res) => {
-  let { nama, username, email, password } = req.body;
+  let { nama, username, email, password, noTelepon } = req.body;
 
   try {
     password = await hashPassword(password);
-    const newAdmin = new Admin({ nama, username, email, password });
+    const newAdmin = new Admin({ nama, username, email, password, noTelepon });
 
     await newAdmin.save();
     return res

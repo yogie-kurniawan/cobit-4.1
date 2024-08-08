@@ -9,11 +9,14 @@ export const getQuestions = async (req, res) => {
           from: "proses",
           localField: "idProses",
           foreignField: "_id",
-          as: "proses",
+          as: "process",
         },
       },
       {
-        $unwind: "$proses",
+        $unwind: {
+          path: "$process", // Deconstructs the author array field from the input documents to output a document for each element
+          preserveNullAndEmptyArrays: true, // Output documents with empty arrays or missing authors
+        },
       },
     ]);
     return res
@@ -41,11 +44,14 @@ export const getQuestion = async (req, res) => {
           from: "proses",
           localField: "idProses",
           foreignField: "_id",
-          as: "proses",
+          as: "process",
         },
       },
       {
-        $unwind: "$proses",
+        $unwind: {
+          path: "$process", // Deconstructs the author array field from the input documents to output a document for each element
+          preserveNullAndEmptyArrays: true, // Output documents with empty arrays or missing authors
+        },
       },
     ]);
 

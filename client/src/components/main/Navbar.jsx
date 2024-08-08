@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { FaBars } from "react-icons/fa6";
 import { MdClose } from "react-icons/md";
-import { NavLink } from "react-router-dom";
+import { NavLink, Link } from "react-router-dom";
+import { menu } from "../../data/main/data";
 
 const Navbar = () => {
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
@@ -89,39 +90,28 @@ const Navbar = () => {
         } px-4 py-8 flex-col gap-2 `}
       >
         <ul className="flex flex-col md:flex-row justify-center items-center gap-8">
-          <li>
-            <NavLink
-              to="/"
-              className="text-gray-700 text-md font-medium hover:text-primary transition-all duration-300 ease-in"
-            >
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/about"
-              className="text-gray-700 text-md font-medium hover:text-primary transition-all duration-300 ease-in"
-            >
-              About
-            </NavLink>
-          </li>
-          <li>
-            <NavLink
-              to="/survey"
-              className="text-gray-700 text-md font-medium hover:text-primary transition-all duration-300 ease-in"
-            >
-              Survey
-            </NavLink>
-          </li>
-          <li></li>
+          {menu.map((menuItem, index) => (
+            <li key={index}>
+              <NavLink
+                to={menuItem.url}
+                className={({ isActive, isPending }) =>
+                  isActive
+                    ? "text-primary text-md font-medium hover:text-primary transition-all duration-300 ease-in"
+                    : "text-gray-700 text-md font-medium hover:text-primary transition-all duration-300 ease-in"
+                }
+              >
+                {menuItem.text}
+              </NavLink>
+            </li>
+          ))}
         </ul>
         <div className="flex items-center justify-center gap-2">
-          <a href="" className="btn-sm-primary">
-            Login
-          </a>
-          <a href="" className="btn-sm-secondary">
+          <Link to="/register" className="btn-sm-secondary">
             Register
-          </a>
+          </Link>
+          <Link to="/login" className="btn-sm-primary">
+            Login
+          </Link>
         </div>
         <div className="absolute flex items-center justify-center md:hidden top-2 right-2">
           <MdClose size={20} onClick={closeNavbar} />

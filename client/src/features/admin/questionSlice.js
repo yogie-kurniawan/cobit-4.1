@@ -1,6 +1,5 @@
-import api from "../../services/api";
+import API from "../../services/api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 
 const initialState = {
   questions: [],
@@ -12,7 +11,7 @@ export const getQuestions = createAsyncThunk(
   "questions/getQuestions",
   async () => {
     try {
-      const response = await axios.get(`${api}/questions`);
+      const response = await API.get(`/questions`);
       return response.data;
     } catch (error) {
       throw new Error(error.message);
@@ -24,7 +23,7 @@ export const createQuestion = createAsyncThunk(
   "questions/createQuestion",
   async (data) => {
     try {
-      const response = await axios.post(`${api}/questions/create`, data);
+      const response = await API.post(`/questions/create`, data);
       return response;
     } catch (error) {
       throw new Error(error.message);
@@ -36,7 +35,7 @@ export const updateQuestion = createAsyncThunk(
   "questions/updateQuestion",
   async (id, data) => {
     try {
-      const response = await axios.patch(`${api}/questions/${id}/update`, data);
+      const response = await API.patch(`/questions/${id}/update`, data);
       return response;
     } catch (error) {
       throw new Error(error.message);
@@ -47,7 +46,7 @@ export const deleteQuestion = createAsyncThunk(
   "questions/deleteQuestion",
   async (id) => {
     try {
-      const response = await axios.delete(`${api}/questions/${id}/delete`);
+      const response = await API.delete(`/questions/${id}/delete`);
       return response;
     } catch (error) {
       throw new Error(error.message);
@@ -67,8 +66,9 @@ const questionSlice = createSlice({
       .addCase(deleteQuestion.fulfilled, (state, action) => {
         state.questions = state.questions.filter(
           (question) => question._id !== action.payload
-        ); // Remove the deleted question
+        );
         state.loading = false;
+        state.message = action.payload.message;
       });
   },
 });

@@ -1,6 +1,5 @@
-import api from "../../services/api";
+import API from "../../services/api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 
 const initialState = {
   admins: [],
@@ -10,7 +9,7 @@ const initialState = {
 
 export const getAdmins = createAsyncThunk("admins/getAdmins", async () => {
   try {
-    const response = await axios.get(`${api}/admins`);
+    const response = await API.get("/admins");
     return response.data;
   } catch (error) {
     throw new Error(error.message);
@@ -21,7 +20,7 @@ export const createAdmin = createAsyncThunk(
   "admins/createAdmin",
   async (data) => {
     try {
-      const response = await axios.post(`${api}/admins/create`, data);
+      const response = await API.post("/admins/create", data);
       return response;
     } catch (error) {
       throw new Error(error.message);
@@ -29,11 +28,11 @@ export const createAdmin = createAsyncThunk(
   }
 );
 
-export const updateAdmins = createAsyncThunk(
+export const updateAdmin = createAsyncThunk(
   "admins/updateAdmin",
   async (id, data) => {
     try {
-      const response = await axios.patch(`${api}/admins/${id}/update`, data);
+      const response = await API.patch(`admins/${id}/update`, data);
       return response;
     } catch (error) {
       throw new Error(error.message);
@@ -44,7 +43,7 @@ export const deleteAdmin = createAsyncThunk(
   "admins/deleteAdmin",
   async (id) => {
     try {
-      const response = await axios.delete(`${api}/admins/${id}/delete`);
+      const response = await API.delete(`/admins/${id}/delete`);
       return response;
     } catch (error) {
       throw new Error(error.message);
@@ -59,13 +58,24 @@ const adminSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getAdmins.fulfilled, (state, action) => {
-        state.admins = action.payload;
+        state.admins = action.payload.data.admins;
+      })
+      .addCase(getAdmins.rejected, (state, action) => {})
+      .addCase(createAdmin.fulfilled, (state, action) => {
+        state.admins.push(action.payload.data.admin);
+      })
+      .addCase(updateAdmin.fulfilled, (state, action) => {
+        state.admins.push(action.payload.data.admin);
       })
       .addCase(deleteAdmin.fulfilled, (state, action) => {
         state.admins = state.admins.filter(
-          (Admin) => Admin._id !== action.payload
-        ); // Remove the deleted question
+          (admin) => admin._id !== action.payload.data.admin
+        );
         state.loading = false;
+      })
+      .addCase(deleteAdmin.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.error.message;
       });
   },
 });
