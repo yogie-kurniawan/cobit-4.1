@@ -55,13 +55,13 @@ export const menu = [
     links: [
       {
         id: 1,
-        url: "/admin/maturity-level",
+        url: "/admin/maturity-levels",
         text: "Maturity Level",
         icon: <TbReportAnalytics size={20} />,
       },
       {
         id: 2,
-        url: "/admin/gap",
+        url: "/admin/gaps",
         text: "Gap",
         icon: <RiFundsBoxLine size={20} />,
       },

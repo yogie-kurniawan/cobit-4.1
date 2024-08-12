@@ -17,7 +17,7 @@ import { MdClose } from "react-icons/md";
 
 const Question = () => {
   const dispatch = useDispatch();
-  const questions = useSelector((state) => state.questions.questions.questions);
+  const questions = useSelector((state) => state.questions.questions);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
@@ -80,16 +80,21 @@ const Question = () => {
       name: "Proses",
       selector: (row) => {
         if (row.process !== undefined) {
-          return row.process.nama;
+          return row.process.kode;
         }
         return "";
       },
-      width: "200px",
+      width: "100px",
+    },
+    {
+      name: "Id",
+      selector: (row) => row._id,
+      width: "400px",
     },
     {
       name: "Pertanyaan",
       selector: (row) => row.pertanyaan,
-      width: "300px",
+      width: "400px",
     },
     {
       name: "Aksi",

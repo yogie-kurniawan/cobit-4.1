@@ -2,15 +2,24 @@ import React, { useState, useEffect, useRef } from "react";
 import Section from "../../../components/admin/Section";
 import SectionTitle from "../../../components/admin/SectionTitle";
 import Box from "../../../components/admin/Box";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createAdmin } from "../../../features/admin/adminSlice";
+import { updateAdmin } from "../../../features/admin/adminSlice";
 import { ToastContainer, toast } from "react-toastify";
 import Input from "../../../components/admin/Input";
 import Label from "../../../components/admin/Label";
 import "react-toastify/dist/ReactToastify.css";
 
-const CreateAdmin = () => {
+const dataAdmin = {
+  _id: 1,
+  nama: "John",
+  username: "john",
+  password: "123",
+  noTelepon: "082388382700",
+};
+
+const EditAdmin = () => {
+  const { id } = useParams();
   const dispatch = useDispatch();
   const namaRef = useRef(null);
   const usernameRef = useRef(null);
@@ -25,7 +34,7 @@ const CreateAdmin = () => {
       noTelepon: noTeleponRef.current.value,
       password: passwordRef.current.value,
     };
-    dispatch(createAdmin(data))
+    dispatch(updateAdmin(data))
       .then((response) => {
         toast.success(response.payload.data.message);
         clearForm();
@@ -43,7 +52,7 @@ const CreateAdmin = () => {
   };
   return (
     <Section>
-      <SectionTitle title="Tambah Admin"></SectionTitle>
+      <SectionTitle title="Edit Admin"></SectionTitle>
       <Box>
         <div className="mb-8">
           <div className="flex">
@@ -62,6 +71,7 @@ const CreateAdmin = () => {
                   type="text"
                   placeholder="Masukkan nama..."
                   ref={namaRef}
+                  value={dataAdmin.nama}
                 />
               </div>
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
@@ -70,6 +80,7 @@ const CreateAdmin = () => {
                   type="text"
                   placeholder="Masukkan username..."
                   ref={usernameRef}
+                  value={dataAdmin.username}
                 />
               </div>
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
@@ -78,6 +89,7 @@ const CreateAdmin = () => {
                   type="text"
                   placeholder="Masukkan No Telepon..."
                   ref={noTeleponRef}
+                  value={dataAdmin.noTelepon}
                 />
               </div>
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
@@ -104,4 +116,4 @@ const CreateAdmin = () => {
   );
 };
 
-export default CreateAdmin;
+export default EditAdmin;

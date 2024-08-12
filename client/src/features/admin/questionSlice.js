@@ -61,7 +61,7 @@ const questionSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getQuestions.fulfilled, (state, action) => {
-        state.questions = action.payload;
+        state.questions = action.payload.questions;
       })
       .addCase(deleteQuestion.fulfilled, (state, action) => {
         state.questions = state.questions.filter(

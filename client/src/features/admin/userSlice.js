@@ -16,19 +16,16 @@ export const getUsers = createAsyncThunk("users/getQUsers", async () => {
   }
 });
 
-export const createUsers = createAsyncThunk(
-  "users/createUser",
-  async (data) => {
-    try {
-      const response = await API.post(`/users/create`, data);
-      return response;
-    } catch (error) {
-      throw new Error(error.message);
-    }
+export const createUser = createAsyncThunk("users/createUser", async (data) => {
+  try {
+    const response = await API.post(`/users/create`, data);
+    return response;
+  } catch (error) {
+    throw new Error(error.message);
   }
-);
+});
 
-export const updateUsers = createAsyncThunk(
+export const updateUser = createAsyncThunk(
   "users/updateUser",
   async (id, data) => {
     try {
@@ -55,7 +52,7 @@ const userSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getUsers.fulfilled, (state, action) => {
-        state.users = action.payload;
+        state.users = action.payload.users;
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
         state.users = state.users.filter((user) => user._id !== action.payload); // Remove the deleted question

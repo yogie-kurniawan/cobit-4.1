@@ -21,8 +21,9 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    gambar: {
+    noTelepon: {
       type: String,
+      max: 50,
     },
   },
   { timestamps: true }

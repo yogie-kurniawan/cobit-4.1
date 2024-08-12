@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import API from "../../../services/api";
 import { ToastContainer, toast } from "react-toastify";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -63,7 +63,7 @@ const Login = () => {
                   <input
                     type="text"
                     ref={namaRef}
-                    className="block w-full px-6 py-3 text-md text-gray-700 border border-gray-400 rounded-md focus:outline focus:outline-gray-600"
+                    className="block w-full px-4 py-2 text-md text-gray-700 border border-gray-400 rounded-md focus:outline focus:outline-gray-600"
                     placeholder="Nama"
                   ></input>
                 </div>
@@ -71,7 +71,7 @@ const Login = () => {
                   <input
                     type="text"
                     ref={usernameRef}
-                    className="block w-full px-6 py-3 text-md text-gray-700 border border-gray-400 rounded-md focus:outline focus:outline-gray-600"
+                    className="block w-full px-4 py-2 text-md text-gray-700 border border-gray-400 rounded-md focus:outline focus:outline-gray-600"
                     placeholder="Username"
                   ></input>
                 </div>
@@ -79,7 +79,7 @@ const Login = () => {
                   <input
                     type="password"
                     ref={passwordRef}
-                    className="block w-full px-6 py-3 text-md text-gray-700 border border-gray-400 rounded-md focus:outline focus:outline-gray-600"
+                    className="block w-full px-4 py-2 text-md text-gray-700 border border-gray-400 rounded-md focus:outline focus:outline-gray-600"
                     placeholder="Password"
                   ></input>
                 </div>
@@ -87,17 +87,25 @@ const Login = () => {
                   <input
                     type="text"
                     ref={noTeleponRef}
-                    className="block w-full px-6 py-3 text-md text-gray-700 border border-gray-400 rounded-md focus:outline focus:outline-gray-600"
+                    className="block w-full px-4 py-2 text-md text-gray-700 border border-gray-400 rounded-md focus:outline focus:outline-gray-600"
                     placeholder="No Telepon"
                   ></input>
                 </div>
                 <div>
                   <button
                     type="submit"
-                    className="block w-full bg-primary text-white px-6 py-3 rounded-md hover:bg-primary-dark transition-all duration-300 ease-in"
+                    className="block w-full bg-primary text-white px-4 py-2 rounded-md hover:bg-primary-dark transition-all duration-300 ease-in"
                   >
-                    Login
+                    Registrasi
                   </button>
+                </div>
+                <div>
+                  <p className="text-xs text-gray-700 text-center">
+                    Sudah punya akun?{" "}
+                    <Link to="/login" className="underline">
+                      Login
+                    </Link>
+                  </p>
                 </div>
               </div>
             </form>

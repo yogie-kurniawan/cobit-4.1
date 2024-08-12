@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Admin = () => {
   const dispatch = useDispatch();
-  const admins = useSelector((state) => state.admins.admins.admins);
+  const admins = useSelector((state) => state.admins.admins);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
@@ -80,7 +80,7 @@ const Admin = () => {
       width: "100px",
     },
     {
-      name: "No Handphone",
+      name: "No Telepon",
       selector: (row) => row.noTelepon,
       width: "200px",
     },

@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Question = () => {
   const dispatch = useDispatch();
-  const answers = useSelector((state) => state.answers.answers.answers);
+  const answers = useSelector((state) => state.answers.answers);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const Question = () => {
     },
     {
       name: "User",
-      selector: (row) => row.user.username,
+      selector: (row) => row.user.nama,
       width: "100px",
     },
     {
@@ -49,9 +49,10 @@ const Question = () => {
 
   return (
     <Section>
-      <SectionTitle title="Pertanyaan"></SectionTitle>
+      <SectionTitle title="Jawaban"></SectionTitle>
       <Box>
         <div>
+          <ToastContainer />
           <DataTable
             columns={columns}
             data={answers}
@@ -59,7 +60,6 @@ const Question = () => {
             paginationPerPage={rowsPerPage}
             onChangeRowsPerPage={handleRowsPerPage}
           />
-          {/* <ToastContainer /> */}
         </div>
       </Box>
     </Section>

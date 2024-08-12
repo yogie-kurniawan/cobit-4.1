@@ -7,6 +7,7 @@ import questionRoute from "./question.js";
 import answerRoute from "./answer.js";
 import indexMLRoute from "./indexML.js";
 import gapRoute from "./gap.js";
+import insertRoute from "./insert.js";
 import notFoundRoute from "./not-found.js";
 
 export {
@@ -18,6 +19,7 @@ export {
   questionRoute,
   answerRoute,
   indexMLRoute,
+  insertRoute,
   gapRoute,
   notFoundRoute,
 };

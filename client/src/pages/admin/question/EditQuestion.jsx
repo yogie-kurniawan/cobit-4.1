@@ -4,13 +4,19 @@ import SectionTitle from "../../../components/admin/SectionTitle";
 import Box from "../../../components/admin/Box";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createQuestion } from "../../../features/admin/questionSlice";
+import { updateQuestion } from "../../../features/admin/questionSlice";
 import { ToastContainer, toast } from "react-toastify";
-import Input from "../../../components/admin/Input";
 import Label from "../../../components/admin/Label";
 import "react-toastify/dist/ReactToastify.css";
 import Textarea from "../../../components/admin/Textarea";
 import Select from "../../../components/admin/Select";
+
+const dataQuestion = {
+  _id: 1,
+  process: { kode: "DS1" },
+  pertanyaan:
+    "Seberapa baik pengguna layanan memahami tingkat layanan yang diharapkan ?",
+};
 
 const CreateQuestion = () => {
   const dispatch = useDispatch();
@@ -23,7 +29,7 @@ const CreateQuestion = () => {
       proses: prosesRef.current.value,
       pertanyaan: pertanyaanRef.current.value,
     };
-    dispatch(createQuestion(data))
+    dispatch(updateQuestion(data))
       .then((response) => {
         toast.success(response.payload.data.message);
         clearForm();
@@ -39,7 +45,7 @@ const CreateQuestion = () => {
   };
   return (
     <Section>
-      <SectionTitle title="Tambah Pertanyaan"></SectionTitle>
+      <SectionTitle title="Edit Pertanyaan"></SectionTitle>
       <Box>
         <div className="mb-8">
           <div className="flex">
@@ -55,7 +61,7 @@ const CreateQuestion = () => {
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
                 <Label label="Proses" />
                 <Select ref={prosesRef}>
-                  <option value="">--Pilih Proses--</option>
+                  <option value="">{dataQuestion.process.kode}</option>
                 </Select>
               </div>
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
@@ -63,7 +69,9 @@ const CreateQuestion = () => {
                 <Textarea
                   placeholder="Masukkan Pertanyaan..."
                   ref={pertanyaanRef}
-                ></Textarea>
+                >
+                  {dataQuestion.pertanyaan}
+                </Textarea>
               </div>
               <div className="col-span-12 flex gap-1">
                 <button type="submit" className="btn-sm-primary">

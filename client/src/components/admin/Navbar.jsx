@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import { HiBars3 } from "react-icons/hi2";
-import SidebarContext from "../../contexts/admin/SidebarContext";
+import SidebarContext from "../../context/admin/SidebarContext";
 
 function Navbar() {
   const { toggleSidebar } = useContext(SidebarContext);

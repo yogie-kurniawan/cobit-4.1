@@ -1,13 +1,13 @@
 import React, { useRef } from "react";
-import API from "../../../services/api";
+import API from "../../services/api";
 import { ToastContainer, toast } from "react-toastify";
 import { Link, useNavigate } from "react-router-dom";
-import { useAuth } from "../../../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 
 const Login = () => {
+  const { setIsLoggedIn } = useAuth();
   const usernameRef = useRef(null);
   const passwordRef = useRef(null);
-  const { setIsLoggedIn } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
@@ -15,17 +15,16 @@ const Login = () => {
     const data = {
       username: usernameRef.current.value,
       password: passwordRef.current.value,
-      isAdmin: false,
     };
     const handleLogin = async () => {
       try {
-        const result = await API.post(`/auth/login`, data);
+        const result = await API.post(`/auth/admin/login`, data);
         const token = result.data.token || "";
         localStorage.setItem("token", token);
         setIsLoggedIn(true);
-        toast.success("login berhasil!");
         clearForm();
-        navigate("/");
+        navigate("/admin");
+        toast.success("login berhasil!");
       } catch (error) {
         if (error.response) {
           toast.error(error.response.data.message);
@@ -44,7 +43,7 @@ const Login = () => {
 
   return (
     <section className="w-full bg-primary">
-      <div className="max-w-screen-xl mx-auto min-h-[600px] px-4">
+      <div className="max-w-screen-xl mx-auto min-h-screen px-4">
         <div className="w-full h-full flex items-center justify-center pt-28">
           <div className="max-w-[320px] w-full px-8 py-10 bg-white rounded-xl overflow-hidden shadow-xl">
             <form action="" onSubmit={handleSubmit}>
@@ -81,14 +80,6 @@ const Login = () => {
                   >
                     Login
                   </button>
-                </div>
-                <div>
-                  <p className="text-xs text-gray-700 text-center">
-                    Belum punya akun?{" "}
-                    <Link to="/register" className="underline">
-                      Registrasi
-                    </Link>
-                  </p>
                 </div>
               </div>
             </form>

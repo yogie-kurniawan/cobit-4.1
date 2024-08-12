@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from "react";
 import { menu } from "../../data/admin/data";
 import { Link, NavLink } from "react-router-dom";
 import { RxDashboard } from "react-icons/rx";
-import SidebarContext from "../../contexts/admin/SidebarContext";
+import SidebarContext from "../../context/admin/SidebarContext";
 
 function Sidebar() {
   const { isSidebarOpen, setIsSidebarOpen } = useContext(SidebarContext);

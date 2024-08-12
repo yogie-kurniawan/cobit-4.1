@@ -4,13 +4,13 @@ import SectionTitle from "../../../components/admin/SectionTitle";
 import Box from "../../../components/admin/Box";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createAdmin } from "../../../features/admin/adminSlice";
+import { createUser } from "../../../features/admin/userSlice";
 import { ToastContainer, toast } from "react-toastify";
 import Input from "../../../components/admin/Input";
 import Label from "../../../components/admin/Label";
 import "react-toastify/dist/ReactToastify.css";
 
-const CreateAdmin = () => {
+const CreateUser = () => {
   const dispatch = useDispatch();
   const namaRef = useRef(null);
   const usernameRef = useRef(null);
@@ -25,7 +25,7 @@ const CreateAdmin = () => {
       noTelepon: noTeleponRef.current.value,
       password: passwordRef.current.value,
     };
-    dispatch(createAdmin(data))
+    dispatch(createUser(data))
       .then((response) => {
         toast.success(response.payload.data.message);
         clearForm();
@@ -43,11 +43,11 @@ const CreateAdmin = () => {
   };
   return (
     <Section>
-      <SectionTitle title="Tambah Admin"></SectionTitle>
+      <SectionTitle title="Tambah User"></SectionTitle>
       <Box>
         <div className="mb-8">
           <div className="flex">
-            <Link to="/admin/admins" className="btn-sm-primary">
+            <Link to="/admin/users" className="btn-sm-primary">
               Kembali
             </Link>
           </div>
@@ -104,4 +104,4 @@ const CreateAdmin = () => {
   );
 };
 
-export default CreateAdmin;
+export default CreateUser;

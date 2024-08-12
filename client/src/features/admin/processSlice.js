@@ -19,7 +19,7 @@ export const getProcesses = createAsyncThunk(
   }
 );
 
-export const createProcesses = createAsyncThunk(
+export const createProcess = createAsyncThunk(
   "processes/createProcess",
   async (data) => {
     try {
@@ -31,7 +31,7 @@ export const createProcesses = createAsyncThunk(
   }
 );
 
-export const updateProcesses = createAsyncThunk(
+export const updateProcess = createAsyncThunk(
   "processes/updateProcess",
   async (id, data) => {
     try {
@@ -61,7 +61,7 @@ const Processeslice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getProcesses.fulfilled, (state, action) => {
-        state.processes = action.payload;
+        state.processes = action.payload.processes;
       })
       .addCase(deleteProcess.fulfilled, (state, action) => {
         state.processes = state.processes.filter(

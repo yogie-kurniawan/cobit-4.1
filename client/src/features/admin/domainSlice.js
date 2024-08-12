@@ -16,7 +16,7 @@ export const getDomains = createAsyncThunk("domains/getDomains", async () => {
   }
 });
 
-export const createDomains = createAsyncThunk(
+export const createDomain = createAsyncThunk(
   "domains/createDomain",
   async (data) => {
     try {
@@ -28,7 +28,7 @@ export const createDomains = createAsyncThunk(
   }
 );
 
-export const updateDomains = createAsyncThunk(
+export const updateDomain = createAsyncThunk(
   "domains/updateDomain",
   async (id, data) => {
     try {
@@ -58,7 +58,7 @@ const domainSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getDomains.fulfilled, (state, action) => {
-        state.domains = action.payload;
+        state.domains = action.payload.domains;
       })
       .addCase(deleteDomain.fulfilled, (state, action) => {
         state.domains = state.domains.filter(

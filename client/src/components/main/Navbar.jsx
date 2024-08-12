@@ -3,8 +3,13 @@ import { FaBars } from "react-icons/fa6";
 import { MdClose } from "react-icons/md";
 import { NavLink, Link } from "react-router-dom";
 import { menu } from "../../data/main/data";
+import { useAuth } from "../../hooks/useAuth";
 
 const Navbar = () => {
+  const { isLoggedIn } = useAuth();
+
+  useEffect(() => {}, [isLoggedIn]);
+
   const [isNavbarOpen, setIsNavbarOpen] = useState(false);
   const [isScrolledDown, setIsScrolledDown] = useState(false);
 
@@ -37,7 +42,7 @@ const Navbar = () => {
       <div className="relative max-w-screen-xl mx-auto flex justify-between items-center text-gray-700 px-4 py-4">
         <div>
           <a href="">
-            <h1 className="text-2xl text-primary font-semibold">LTRW</h1>
+            <h1 className="text-2xl text-primary font-semibold">Cobit 4.1</h1>
           </a>
         </div>
         <div className="relative hidden md:flex gap-2">
@@ -68,14 +73,18 @@ const Navbar = () => {
             </li>
             <li></li>
           </ul>
-          <div className="flex items-center justify-center gap-2">
-            <a href="" className="btn-sm-primary">
-              Login
-            </a>
-            <a href="" className="btn-sm-secondary">
-              Register
-            </a>
-          </div>
+          {!isLoggedIn ? (
+            <div className="flex items-center justify-center gap-2">
+              <a href="" className="btn-sm-primary">
+                Login
+              </a>
+              <a href="" className="btn-sm-secondary">
+                Register
+              </a>
+            </div>
+          ) : (
+            ""
+          )}
           <div className="absolute flex items-center justify-center md:hidden top-2 right-2">
             <MdClose size={20} onClick={closeNavbar} />
           </div>
@@ -107,7 +116,7 @@ const Navbar = () => {
         </ul>
         <div className="flex items-center justify-center gap-2">
           <Link to="/register" className="btn-sm-secondary">
-            Register
+            Registrasi
           </Link>
           <Link to="/login" className="btn-sm-primary">
             Login

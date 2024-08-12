@@ -58,7 +58,7 @@ const adminSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(getAdmins.fulfilled, (state, action) => {
-        state.admins = action.payload.data.admins;
+        state.admins = action.payload.admins;
       })
       .addCase(getAdmins.rejected, (state, action) => {})
       .addCase(createAdmin.fulfilled, (state, action) => {

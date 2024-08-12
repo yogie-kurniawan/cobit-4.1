@@ -2,29 +2,29 @@ import API from "../../services/api";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  answers: [],
+  gaps: [],
   loading: false,
   error: null,
 };
 
-export const getAnswers = createAsyncThunk("answers/getAnswers", async () => {
+export const getGaps = createAsyncThunk("gaps/getGaps", async () => {
   try {
-    const response = await API.get("/answers");
+    const response = await API.get(`/gaps`);
     return response.data;
   } catch (error) {
     throw new Error(error.message);
   }
 });
 
-const Answerslice = createSlice({
-  name: "answers",
+const GapSlice = createSlice({
+  name: "gaps",
   initialState,
   reducers: {},
   extraReducers: (builder) => {
-    builder.addCase(getAnswers.fulfilled, (state, action) => {
-      state.answers = action.payload.answers;
+    builder.addCase(getGaps.fulfilled, (state, action) => {
+      state.gaps = action.payload;
     });
   },
 });
 
-export default Answerslice.reducer;
+export default GapSlice.reducer;

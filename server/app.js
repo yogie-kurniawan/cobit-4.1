@@ -20,6 +20,7 @@ import {
   answerRoute,
   indexMLRoute,
   gapRoute,
+  insertRoute,
   notFoundRoute,
 } from "./routes/index.js";
 
@@ -47,6 +48,7 @@ app.use("/api/answers", answerRoute);
 app.use("/api/maturity-levels", indexMLRoute);
 app.use("/api/gaps", gapRoute);
 app.use("*", notFoundRoute);
+app.use("/api/insert", insertRoute);
 
 const port = process.env.PORT || 3000;
 const start = async () => {

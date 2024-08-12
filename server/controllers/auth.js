@@ -85,10 +85,66 @@ export const handleLogin = async (req, res) => {
         {
           id: user._id,
           username: user.username,
+          role: "user",
         },
         process.env.JWT_SECRET,
         {
-          expiresIn: process.env.JWT_LIFETIME,
+          expiresIn: "3d",
+        }
+      );
+    // res.cookie("token", token, {
+    //   maxAge: 24 * 60 * 60 * 1000,
+    //   secure: true,
+    //   httpOnly: true,
+    // });
+    return res
+      .status(200)
+      .json({ status: "success", message: "Berhasil login!", token });
+  } catch (error) {
+    return res
+      .status(400)
+      .json({ status: "success", message: "Gagal login, silahkan coba lagi!" });
+  }
+};
+export const handleAdminLogin = async (req, res) => {
+  const { username, password } = req.body;
+  if (!username) {
+    return res
+      .status(400)
+      .json({ status: "error", message: "Username harus diisi!" });
+  }
+  if (!password) {
+    return res
+      .status(400)
+      .json({ status: "error", message: "Password harus diisi!" });
+  }
+
+  try {
+    const user = await Admin.findOne({ username });
+    if (!user) {
+      return res
+        .status(404)
+        .json({ status: "error", message: "User tidak ditemukan!" });
+    }
+
+    const isMatch = await bcrypt.compare(password, user.password);
+
+    if (!isMatch) {
+      return res
+        .status(400)
+        .json({ status: "error", message: "Password salah!" });
+    }
+    const token =
+      "Bearer " +
+      jwt.sign(
+        {
+          id: user._id,
+          username: user.username,
+          role: "admin",
+        },
+        process.env.JWT_SECRET,
+        {
+          expiresIn: "3d",
         }
       );
     // res.cookie("token", token, {

@@ -13,7 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const User = () => {
   const dispatch = useDispatch();
-  const users = useSelector((state) => state.users.users.users);
+  const users = useSelector((state) => state.users.users);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
@@ -61,7 +61,7 @@ const User = () => {
     {
       name: "Nama",
       selector: (row) => row.nama,
-      width: "100px",
+      width: "200px",
     },
     {
       name: "Username",
@@ -70,14 +70,14 @@ const User = () => {
     },
     {
       name: "No Handphone",
-      selector: (row) => row.nohp,
+      selector: (row) => row.noTelepon,
       width: "200px",
     },
     {
       name: "Aksi",
       cell: (row) => (
         <div className="flex items-center gap-4">
-          <Link to={`/admin/Users/${row._id}/edit`}>
+          <Link to={`/admin/users/${row._id}/edit`}>
             <FaPenNib size={15} className="text-green-500" />
           </Link>
           <button

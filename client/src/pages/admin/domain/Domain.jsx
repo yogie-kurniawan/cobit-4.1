@@ -17,7 +17,7 @@ import "react-toastify/dist/ReactToastify.css";
 
 const Domain = () => {
   const dispatch = useDispatch();
-  const domains = useSelector((state) => state.domains.domains.domains);
+  const domains = useSelector((state) => state.domains.domains);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
@@ -109,6 +109,7 @@ const Domain = () => {
           </div>
         </div>
         <div>
+          <ToastContainer />
           <DataTable
             columns={columns}
             data={domains}
@@ -116,7 +117,6 @@ const Domain = () => {
             paginationPerPage={rowsPerPage}
             onChangeRowsPerPage={handleRowsPerPage}
           />
-          {/* <ToastContainer /> */}
         </div>
       </Box>
     </Section>

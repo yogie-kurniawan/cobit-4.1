@@ -10,14 +10,13 @@ import { FaTrashCan } from "react-icons/fa6";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import {
-  updateProcesses,
   deleteProcess,
   getProcesses,
 } from "../../../features/admin/processSlice";
 
-const Domain = () => {
+const Process = () => {
   const dispatch = useDispatch();
-  const processes = useSelector((state) => state.processes.processes.processes);
+  const processes = useSelector((state) => state.processes.processes);
   console.log(processes);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
@@ -76,7 +75,7 @@ const Domain = () => {
     {
       name: "Nama",
       selector: (row) => row.nama,
-      width: "200px",
+      width: "300px",
     },
     {
       name: "Deskripsi",
@@ -129,4 +128,4 @@ const Domain = () => {
   );
 };
 
-export default Domain;
+export default Process;

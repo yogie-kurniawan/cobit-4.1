@@ -4,28 +4,27 @@ import SectionTitle from "../../../components/admin/SectionTitle";
 import Box from "../../../components/admin/Box";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { createAdmin } from "../../../features/admin/adminSlice";
+import { createDomain } from "../../../features/admin/domainSlice";
 import { ToastContainer, toast } from "react-toastify";
 import Input from "../../../components/admin/Input";
 import Label from "../../../components/admin/Label";
 import "react-toastify/dist/ReactToastify.css";
+import Textarea from "../../../components/admin/Textarea";
 
-const CreateAdmin = () => {
+const CreateDomain = () => {
   const dispatch = useDispatch();
   const namaRef = useRef(null);
-  const usernameRef = useRef(null);
-  const noTeleponRef = useRef(null);
-  const passwordRef = useRef(null);
+  const kodeRef = useRef(null);
+  const deskripsiRef = useRef(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = {
+      kode: kodeRef.current.value,
       nama: namaRef.current.value,
-      username: usernameRef.current.value,
-      noTelepon: noTeleponRef.current.value,
-      password: passwordRef.current.value,
+      deskripsi: deskripsiRef.current.value,
     };
-    dispatch(createAdmin(data))
+    dispatch(createDomain(data))
       .then((response) => {
         toast.success(response.payload.data.message);
         clearForm();
@@ -36,18 +35,17 @@ const CreateAdmin = () => {
   };
 
   const clearForm = () => {
+    kodeRef.current.value = "";
     namaRef.current.value = "";
-    usernameRef.current.value = "";
-    noTeleponRef.current.value = "";
-    passwordRef.current.value = "";
+    deskripsiRef.current.value = "";
   };
   return (
     <Section>
-      <SectionTitle title="Tambah Admin"></SectionTitle>
+      <SectionTitle title="Tambah Domain"></SectionTitle>
       <Box>
         <div className="mb-8">
           <div className="flex">
-            <Link to="/admin/admins" className="btn-sm-primary">
+            <Link to="/admin/domains" className="btn-sm-primary">
               Kembali
             </Link>
           </div>
@@ -57,36 +55,27 @@ const CreateAdmin = () => {
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-12 gap-4">
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
+                <Label label="Kode" />
+                <Input
+                  type="text"
+                  placeholder="Masukkan Kode..."
+                  ref={kodeRef}
+                />
+              </div>
+              <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
                 <Label label="Nama" />
                 <Input
                   type="text"
-                  placeholder="Masukkan nama..."
+                  placeholder="Masukkan Nama..."
                   ref={namaRef}
                 />
               </div>
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
-                <Label label="Username" />
-                <Input
-                  type="text"
-                  placeholder="Masukkan username..."
-                  ref={usernameRef}
-                />
-              </div>
-              <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
-                <Label label="No Telepon" />
-                <Input
-                  type="text"
-                  placeholder="Masukkan No Telepon..."
-                  ref={noTeleponRef}
-                />
-              </div>
-              <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
-                <Label label="Password" />
-                <Input
-                  type="password"
-                  placeholder="Masukkan Password..."
-                  ref={passwordRef}
-                />
+                <Label label="Deskripsi" />
+                <Textarea
+                  placeholder="Masukkan Deskripsi..."
+                  ref={deskripsiRef}
+                ></Textarea>
               </div>
               <div className="col-span-12 flex gap-1">
                 <button type="submit" className="btn-sm-primary">
@@ -104,4 +93,4 @@ const CreateAdmin = () => {
   );
 };
 
-export default CreateAdmin;
+export default CreateDomain;

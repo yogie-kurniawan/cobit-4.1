@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 import Header from "../../components/admin/Header";
 import Sidebar from "../../components/admin/Sidebar";
 import "./style.css";
-import SidebarContext from "../../contexts/admin/SidebarContext";
+import SidebarContext from "../../context/admin/SidebarContext";
 
 const AdminLayout = () => {
   const { isSidebarOpen } = useContext(SidebarContext);
