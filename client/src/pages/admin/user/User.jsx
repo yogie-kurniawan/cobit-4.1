@@ -30,7 +30,13 @@ const User = () => {
         <p>Anda yakin ingin menghapus?</p>
         <button
           onClick={() => {
-            dispatch(deleteUser(id));
+            dispatch(deleteUser(id))
+              .then((response) => {
+                toast.success(response.payload.data.message);
+              })
+              .catch((error) => {
+                toast.error(error.message);
+              });
             toast.dismiss(); // Dismiss the toast after confirmation
           }}
         >

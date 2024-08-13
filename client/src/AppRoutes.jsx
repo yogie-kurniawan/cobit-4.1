@@ -6,6 +6,7 @@ import MainRoute from "./routes/Main";
 import AdminRoute from "./routes/Admin";
 import { SidebarProvider } from "./context/admin/SidebarContext";
 import { AuthProvider } from "./hooks/useAuth";
+import { Login } from "./pages/admin/index";
 const AppRoutes = () => {
   return (
     <AuthProvider>
@@ -17,7 +18,8 @@ const AppRoutes = () => {
           </Route>
 
           {/* Admin Layout Routes */}
-          <Route
+          <Route path="/admin/login" element={<Login />} />
+          {/* <Route
             path="/admin"
             element={
               <SidebarProvider>
@@ -26,7 +28,7 @@ const AppRoutes = () => {
             }
           >
             {AdminRoute()}
-          </Route>
+          </Route> */}
         </Routes>
       </Router>
     </AuthProvider>

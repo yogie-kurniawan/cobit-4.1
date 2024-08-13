@@ -38,8 +38,6 @@ export const AuthProvider = ({ children }) => {
     setUserRole(null);
   };
 
-  console.log(isLoggedIn, setIsLoggedIn, userRole);
-
   return (
     <AuthContext.Provider value={{ isLoggedIn, setIsLoggedIn, userRole }}>
       {children}

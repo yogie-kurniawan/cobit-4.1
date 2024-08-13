@@ -4,7 +4,7 @@ import SectionTitle from "../../../components/admin/SectionTitle";
 import Box from "../../../components/admin/Box";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { updateAdmin } from "../../../features/admin/adminSlice";
+import { getAdmin, updateAdmin } from "../../../features/admin/adminSlice";
 import { ToastContainer, toast } from "react-toastify";
 import Input from "../../../components/admin/Input";
 import Label from "../../../components/admin/Label";
@@ -26,6 +26,13 @@ const EditAdmin = () => {
   const noTeleponRef = useRef(null);
   const passwordRef = useRef(null);
 
+  useEffect(() => {
+    dispatch(getAdmin(id));
+  }, [dispatch]);
+
+  const admin = useSelector((state) => state.admins.admin);
+  console.log(id, admin);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = {
@@ -34,7 +41,7 @@ const EditAdmin = () => {
       noTelepon: noTeleponRef.current.value,
       password: passwordRef.current.value,
     };
-    dispatch(updateAdmin(data))
+    dispatch(updateAdmin(id, data))
       .then((response) => {
         toast.success(response.payload.data.message);
         clearForm();
@@ -71,7 +78,7 @@ const EditAdmin = () => {
                   type="text"
                   placeholder="Masukkan nama..."
                   ref={namaRef}
-                  value={dataAdmin.nama}
+                  value={admin.nama}
                 />
               </div>
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
@@ -80,7 +87,7 @@ const EditAdmin = () => {
                   type="text"
                   placeholder="Masukkan username..."
                   ref={usernameRef}
-                  value={dataAdmin.username}
+                  value={admin.username}
                 />
               </div>
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
@@ -89,7 +96,7 @@ const EditAdmin = () => {
                   type="text"
                   placeholder="Masukkan No Telepon..."
                   ref={noTeleponRef}
-                  value={dataAdmin.noTelepon}
+                  value={admin.noTelepon}
                 />
               </div>
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">

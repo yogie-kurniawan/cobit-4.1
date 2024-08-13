@@ -4,27 +4,27 @@ import SectionTitle from "../../../components/admin/SectionTitle";
 import Box from "../../../components/admin/Box";
 import { Link, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "../../../features/admin/userSlice";
+import { getUser, updateUser } from "../../../features/admin/userSlice";
 import { ToastContainer, toast } from "react-toastify";
 import Input from "../../../components/admin/Input";
 import Label from "../../../components/admin/Label";
 import "react-toastify/dist/ReactToastify.css";
-
-const dataAdmin = {
-  _id: 1,
-  nama: "Yusuf Ilham",
-  username: "yusuf",
-  password: "123",
-  noTelepon: "083849583828",
-};
+import { useNavigate } from "react-router-dom";
 
 const EditUser = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const namaRef = useRef(null);
   const usernameRef = useRef(null);
   const noTeleponRef = useRef(null);
   const passwordRef = useRef(null);
+
+  useEffect(() => {
+    dispatch(getUser(id)).then();
+  }, [dispatch, id]);
+
+  const user = useSelector((state) => state.users.user);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -34,10 +34,12 @@ const EditUser = () => {
       noTelepon: noTeleponRef.current.value,
       password: passwordRef.current.value,
     };
-    dispatch(updateUser(data))
+    dispatch(updateUser(id, data))
       .then((response) => {
         toast.success(response.payload.data.message);
-        clearForm();
+        setTimeout(() => {
+          navigate("/admin/users");
+        }, 1000);
       })
       .catch((error) => {
         toast.error(error.message);
@@ -71,7 +73,7 @@ const EditUser = () => {
                   type="text"
                   placeholder="Masukkan nama..."
                   ref={namaRef}
-                  value={dataAdmin.nama}
+                  value={user.nama}
                 />
               </div>
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
@@ -80,7 +82,7 @@ const EditUser = () => {
                   type="text"
                   placeholder="Masukkan username..."
                   ref={usernameRef}
-                  value={dataAdmin.username}
+                  value={user.username}
                 />
               </div>
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
@@ -89,7 +91,7 @@ const EditUser = () => {
                   type="text"
                   placeholder="Masukkan No Telepon..."
                   ref={noTeleponRef}
-                  value={dataAdmin.noTelepon}
+                  value={user.noTelepon}
                 />
               </div>
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">

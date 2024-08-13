@@ -21,7 +21,7 @@ export const getUser = async (req, res) => {
     return res.status(404).json({ message: "Id tidak valid!" });
 
   try {
-    const user = await User.findById(id);
+    const user = await User.findById(_id);
     return res.status(200).json({ user, message: "Berhasil menangkap User!" });
   } catch (error) {
     console.log(error);
@@ -52,15 +52,27 @@ export const updateUser = async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(_id))
     return res.status(404).json({ message: "Id tidak valid!" });
 
+  let updatedUser = {};
   try {
-    password = await hashPassword(password);
-    const updatedUser = await User.findByIdAndUpdate(
-      _id,
-      { nama, username, email, password },
-      {
-        new: true,
-      }
-    );
+    if (password && password !== "") {
+      password = await hashPassword(password);
+      updatedUser = await User.findByIdAndUpdate(
+        _id,
+        { nama, username, email, password },
+        {
+          new: true,
+        }
+      );
+    } else {
+      updatedUser = await User.findByIdAndUpdate(
+        _id,
+        { nama, username, email },
+        {
+          new: true,
+        }
+      );
+    }
+
     return res.status(200).json({
       user: updatedUser,
       message: "Berhasil memperbaharui User!",

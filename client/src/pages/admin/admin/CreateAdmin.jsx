@@ -9,9 +9,11 @@ import { ToastContainer, toast } from "react-toastify";
 import Input from "../../../components/admin/Input";
 import Label from "../../../components/admin/Label";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const CreateAdmin = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const namaRef = useRef(null);
   const usernameRef = useRef(null);
   const noTeleponRef = useRef(null);
@@ -27,8 +29,9 @@ const CreateAdmin = () => {
     };
     dispatch(createAdmin(data))
       .then((response) => {
-        toast.success(response.payload.data.message);
+        toast.success(response.payload.message);
         clearForm();
+        navigate("/admin/admins");
       })
       .catch((error) => {
         toast.error(error.message);
