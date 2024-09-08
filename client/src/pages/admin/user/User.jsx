@@ -17,7 +17,9 @@ const User = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
-    dispatch(getUsers());
+    dispatch(getUsers()).catch((error) => {
+      toast.error(error.message);
+    });
   }, [dispatch]);
 
   const handleRowsPerPage = (newPerPage) => {
@@ -32,7 +34,7 @@ const User = () => {
           onClick={() => {
             dispatch(deleteUser(id))
               .then((response) => {
-                toast.success(response.payload.data.message);
+                toast.success(response.payload.message);
               })
               .catch((error) => {
                 toast.error(error.message);
@@ -104,9 +106,16 @@ const User = () => {
       <SectionTitle title="User"></SectionTitle>
       <Box>
         <div className="mb-8">
-          <div className="flex">
-            <Link to="/admin/users/create" className="btn-sm-primary">
+          <div className="flex gap-1">
+            <Link to="/admin/users/create" className="btn-md-primary">
               Tambah
+            </Link>
+            <Link
+              target="_blank"
+              to="/admin/questions/print"
+              className="btn-md-secondary"
+            >
+              Cetak
             </Link>
           </div>
         </div>

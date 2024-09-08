@@ -21,6 +21,8 @@ import {
   Answer,
   MaturityLevel,
   Gap,
+  Report,
+  PrintReport,
   NotFound,
 } from "../pages/admin/index";
 import PrivateRoute from "../middleware/PrivateRoute";
@@ -63,6 +65,7 @@ const AdminRoute = () => {
       <Route path="questions/:id/edit" element={<EditQuestion />} />
       <Route path="maturity-levels" element={<MaturityLevel />} />
       <Route path="gaps" element={<Gap />} />
+      <Route path="report" element={<Report />} />
       <Route path="answers" element={<Answer />} />
       <Route path="*" exact element={<NotFound />} />
     </>

@@ -9,9 +9,11 @@ import { ToastContainer, toast } from "react-toastify";
 import Input from "../../../components/admin/Input";
 import Label from "../../../components/admin/Label";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 const CreateUser = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const namaRef = useRef(null);
   const usernameRef = useRef(null);
   const noTeleponRef = useRef(null);
@@ -27,8 +29,11 @@ const CreateUser = () => {
     };
     dispatch(createUser(data))
       .then((response) => {
-        toast.success(response.payload.data.message);
+        toast.success(response.payload.message);
         clearForm();
+        setTimeout(() => {
+          navigate("/admin/users");
+        }, 1000);
       })
       .catch((error) => {
         toast.error(error.message);
@@ -47,7 +52,7 @@ const CreateUser = () => {
       <Box>
         <div className="mb-8">
           <div className="flex">
-            <Link to="/admin/users" className="btn-sm-primary">
+            <Link to="/admin/users" className="btn-md-primary">
               Kembali
             </Link>
           </div>
@@ -89,10 +94,10 @@ const CreateUser = () => {
                 />
               </div>
               <div className="col-span-12 flex gap-1">
-                <button type="submit" className="btn-sm-primary">
+                <button type="submit" className="btn-md-primary">
                   Simpan
                 </button>
-                <button type="reset" className="btn-sm-secondary">
+                <button type="reset" className="btn-md-secondary">
                   Reset
                 </button>
               </div>

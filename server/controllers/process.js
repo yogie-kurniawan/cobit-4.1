@@ -16,13 +16,14 @@ export const getProcesss = async (req, res) => {
         $unwind: "$domain",
       },
     ]);
-    console.log(processes);
-    return res
-      .status(200)
-      .json({ processes, message: "Berhasil menangkap semua proses!" });
+    return res.status(200).json({
+      processes,
+      status: "success",
+      message: "Berhasil menangkap semua proses!",
+    });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: error.message });
+    return res.status(400).json({ status: "error", message: error.message });
   }
 };
 
@@ -30,7 +31,9 @@ export const getProcess = async (req, res) => {
   const { id: _id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(_id))
-    return res.status(404).json({ message: "Id tidak valid!" });
+    return res
+      .status(404)
+      .json({ status: "error", message: "Id tidak valid!" });
 
   try {
     const process = await Process.aggregate([
@@ -51,13 +54,16 @@ export const getProcess = async (req, res) => {
     ]);
     if (process.length === 0) {
       return res.status(404).json({
+        status: "error",
         message: "Pertanyaan tidak ditemukan!",
       });
     }
     const firstProcess = process[0];
-    return res
-      .status(200)
-      .json({ process: firstProcess, message: "Berhasil menangkap proses!" });
+    return res.status(200).json({
+      process: firstProcess,
+      status: "success",
+      message: "Berhasil menangkap proses!",
+    });
   } catch (error) {
     console.log(error);
     return res.status(400).json({ message: error.message });
@@ -65,18 +71,18 @@ export const getProcess = async (req, res) => {
 };
 
 export const createProcess = async (req, res) => {
-  const { idDomain, kode, nama, deskripsi } = req.body;
-  const newProcess = new Process({ idDomain, kode, nama, deskripsi });
+  const { domain, kode, nama, deskripsi } = req.body;
 
   try {
+    const newProcess = new Process({ idDomain: domain, kode, nama, deskripsi });
     await newProcess.save();
     return res.status(201).json({
       process: newProcess,
+      status: "success",
       message: "Berhasil menyimpan proses!",
     });
   } catch (error) {
-    console.log(error);
-    return res.status(400).json({ message: error.message });
+    return res.status(400).json({ status: "error", message: error.message });
   }
 };
 
@@ -85,7 +91,9 @@ export const updateProcess = async (req, res) => {
   const { kodeIndikator, Process } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(_id))
-    return res.status(404).json({ message: "Id tidak valid!" });
+    return res
+      .status(404)
+      .json({ status: "error", message: "Id tidak valid!" });
 
   try {
     const updatedProcess = await Process.findByIdAndUpdate(
@@ -97,11 +105,12 @@ export const updateProcess = async (req, res) => {
     );
     return res.status(200).json({
       process: updatedProcess,
+      status: "success",
       message: "Berhasil memperbaharui proses!",
     });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: error.message });
+    return res.status(400).json({ status: "error", message: error.message });
   }
 };
 
@@ -109,13 +118,17 @@ export const deleteProcess = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).json({ message: "Id tidak valid!" });
+    return res
+      .status(404)
+      .json({ status: "error", message: "Id tidak valid!" });
 
   try {
     await Process.findByIdAndDelete(id);
-    res.status(200).json({ message: "Berhasil menghapus proses!" });
+    res
+      .status(200)
+      .json({ id, status: "success", message: "Berhasil menghapus proses!" });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: error.message });
+    return res.status(400).json({ status: "error", message: error.message });
   }
 };

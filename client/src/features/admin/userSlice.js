@@ -104,9 +104,8 @@ const userSlice = createSlice({
         state.message = action.payload.message;
       })
       .addCase(deleteUser.fulfilled, (state, action) => {
-        console.log(action.payload);
         state.users = state.users.filter(
-          (user) => user._id !== action.payload.user._id
+          (user) => user._id !== action.payload.id
         );
         state.loading = false;
         state.message = action.payload.message;

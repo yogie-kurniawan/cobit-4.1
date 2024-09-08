@@ -21,7 +21,15 @@ const Question = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
-    dispatch(getQuestions());
+    dispatch(getQuestions())
+      .then((response) => {
+        if (response.payload.error) {
+          toast.error(response.payload.message);
+        }
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
   }, [dispatch]);
 
   const handleRowsPerPage = (newPerPage) => {
@@ -35,22 +43,24 @@ const Question = () => {
         <div className="flex gap-2 mt-2">
           <button
             onClick={() => {
-              dispatch(deleteQuestion(id)).then((action) => {
-                if (deleteQuestion.fulfilled.match(action)) {
-                  toast.success(action.payload.message);
-                } else if (deleteQuestion.rejected.match(action)) {
-                  toast.error(
-                    `Gagal menghapus pertanyaan: ${action.error.message}`
-                  );
-                }
-              });
-              toast.dismiss(); // Dismiss the toast after confirmation
+              dispatch(deleteQuestion(id))
+                .then((response) => {
+                  if (!response.payload.error) {
+                    toast.success(response.payload.message);
+                  } else {
+                    toast.error(response.payload.message);
+                  }
+                })
+                .catch((error) => {
+                  toast.error(error.message);
+                });
+              toast.dismiss();
             }}
-            className="btn-sm-secondary"
+            className="btn-md-secondary"
           >
             Yes
           </button>
-          <button onClick={handleCancel} className="btn-sm-primary">
+          <button onClick={handleCancel} className="btn-md-primary">
             No
           </button>
         </div>
@@ -87,11 +97,6 @@ const Question = () => {
       width: "100px",
     },
     {
-      name: "Id",
-      selector: (row) => row._id,
-      width: "400px",
-    },
-    {
       name: "Pertanyaan",
       selector: (row) => row.pertanyaan,
       width: "400px",
@@ -121,14 +126,21 @@ const Question = () => {
       <SectionTitle title="Pertanyaan"></SectionTitle>
       <Box>
         <div className="mb-8">
-          <div className="flex">
-            <Link to="/admin/questions/create" className="btn-sm-primary">
+          <div className="flex gap-1">
+            <Link to="/admin/questions/create" className="btn-md-primary">
               Tambah
+            </Link>
+            <Link
+              target="_blank"
+              to="/admin/questions/print"
+              className="btn-md-secondary"
+            >
+              Cetak
             </Link>
           </div>
         </div>
         <div>
-          <ToastContainer closeButton={CloseButton} />
+          <ToastContainer />
           <DataTable
             columns={columns}
             data={questions}

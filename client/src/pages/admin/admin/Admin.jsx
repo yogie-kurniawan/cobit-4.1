@@ -17,7 +17,13 @@ const Admin = () => {
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
-    dispatch(getAdmins());
+    dispatch(getAdmins())
+      .then((res) => {
+        if (res.payload.status == "error") throw new Error(res.payload.message);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
   }, [dispatch]);
 
   const handleRowsPerPage = (newPerPage) => {
@@ -28,26 +34,28 @@ const Admin = () => {
     toast(
       <div>
         <p>Anda yakin ingin menghapus?</p>
-        <button
-          onClick={() => {
-            dispatch(deleteAdmin()).then((action) => {
-              if (deleteAdmin.fulfilled.match(action)) {
-                toast.success(action.payload.data.message);
-              } else if (deleteAdmin.rejected.match(action)) {
-                toast.error(
-                  `Gagal menghapus pertanyaan: ${action.error.message}`
-                );
-              }
-            });
-            toast.dismiss(); // Dismiss the toast after confirmation
-          }}
-          className="btn-sm-secondary"
-        >
-          Yes
-        </button>
-        <button onClick={handleCancel} className="btn-sm-primary">
-          No
-        </button>
+        <div className="flex gap-1">
+          <button
+            onClick={() => {
+              dispatch(deleteAdmin(id))
+                .then((res) => {
+                  if (res.payload.status == "error")
+                    throw new Error(res.payload.message);
+                  toast.success(res.payload.message);
+                })
+                .catch((error) => {
+                  toast.error(error.message);
+                });
+              toast.dismiss();
+            }}
+            className="btn-md-secondary"
+          >
+            Ya
+          </button>
+          <button onClick={handleCancel} className="btn-md-primary">
+            Tidak
+          </button>
+        </div>
       </div>,
       {
         position: "top-right",
@@ -91,13 +99,13 @@ const Admin = () => {
           <Link to={`/admin/admins/${row._id}/edit`}>
             <FaPenNib size={15} className="text-green-500" />
           </Link>
-          <button
+          <Link
             onClick={() => {
               showDeleteConfirmation(row._id);
             }}
           >
             <FaTrashCan size={15} className="text-red-500" />
-          </button>
+          </Link>
         </div>
       ),
       width: "200px",
@@ -110,7 +118,7 @@ const Admin = () => {
       <Box>
         <div className="mb-8">
           <div className="flex">
-            <Link to="/admin/admins/create" className="btn-sm-primary">
+            <Link to="/admin/admins/create" className="btn-md-primary">
               Tambah
             </Link>
           </div>

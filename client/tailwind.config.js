@@ -9,6 +9,9 @@ module.exports = {
         secondary: "var(--clr-secondary)",
         "secondary-dark": "var(--clr-secondary-dark)",
       },
+      fontFamily: {
+        times: ['"Times New Roman"', "serif"], // Add Times New Roman
+      },
     },
   },
   plugins: [],

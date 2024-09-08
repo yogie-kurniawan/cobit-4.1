@@ -19,12 +19,14 @@ export const getQuestions = async (req, res) => {
         },
       },
     ]);
-    return res
-      .status(200)
-      .json({ questions, message: "Berhasil menangkap semua pertanyaan!" });
+    return res.status(200).json({
+      questions,
+      status: "success",
+      message: "Berhasil menangkap semua pertanyaan!",
+    });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: error.message });
+    return res.status(400).json({ status: "error", message: error.message });
   }
 };
 
@@ -32,7 +34,9 @@ export const getQuestion = async (req, res) => {
   const { id: _id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(_id))
-    return res.status(404).json({ message: "Id tidak valid!" });
+    return res
+      .status(404)
+      .json({ status: "error", message: "Id tidak valid!" });
 
   try {
     const question = await Question.aggregate([
@@ -57,6 +61,7 @@ export const getQuestion = async (req, res) => {
 
     if (question.length === 0) {
       return res.status(404).json({
+        status: "error",
         message: "Pertanyaan tidak ditemukan!",
       });
     }
@@ -64,11 +69,12 @@ export const getQuestion = async (req, res) => {
 
     return res.status(200).json({
       question: firstQuestion,
+      status: "success",
       message: "Berhasil menangkap pertanyaan!",
     });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: error.message });
+    return res.status(400).json({ status: "error", message: error.message });
   }
 };
 
@@ -80,36 +86,41 @@ export const createQuestion = async (req, res) => {
     await newQuestion.save();
     return res.status(201).json({
       question: newQuestion,
+      status: "success",
       message: "Berhasil menyimpan pertanyaan!",
     });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: error.message });
+    return res.status(400).json({ status: "error", message: error.message });
   }
 };
 
 export const updateQuestion = async (req, res) => {
   const { id: _id } = req.params;
-  const { kodeIndikator, pertanyaan } = req.body;
+  console.log(req.body);
+  const { process, pertanyaan } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(_id))
-    return res.status(404).json({ message: "Id tidak valid!" });
+    return res
+      .status(404)
+      .json({ status: "error", message: "Id tidak valid!" });
 
   try {
     const updatedQuestion = await Question.findByIdAndUpdate(
       _id,
-      { kodeIndikator, pertanyaan },
+      { processId: process, pertanyaan },
       {
         new: true,
       }
     );
     return res.status(200).json({
       question: updatedQuestion,
+      status: "success",
       message: "Berhasil memperbaharui pertanyaan!",
     });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: error.message });
+    return res.status(400).json({ status: "error", message: error.message });
   }
 };
 
@@ -117,13 +128,19 @@ export const deleteQuestion = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).json({ message: "Id tidak valid!" });
+    return res
+      .status(404)
+      .json({ status: "error", message: "Id tidak valid!" });
 
   try {
     await Question.findByIdAndDelete(id);
-    res.status(200).json({ message: "Berhasil menghapus pertanyaan!" });
+    res.status(200).json({
+      id,
+      status: "success",
+      message: "Berhasil menghapus pertanyaan!",
+    });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: error.message });
+    return res.status(400).json({ status: "error", message: error.message });
   }
 };

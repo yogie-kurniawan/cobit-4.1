@@ -58,7 +58,7 @@ const EditDomain = () => {
       <Box>
         <div className="mb-8">
           <div className="flex">
-            <Link to="/admin/processes" className="btn-sm-primary">
+            <Link to="/admin/processes" className="btn-md-primary">
               Kembali
             </Link>
           </div>
@@ -101,10 +101,10 @@ const EditDomain = () => {
                 </Textarea>
               </div>
               <div className="col-span-12 flex gap-1">
-                <button type="submit" className="btn-sm-primary">
+                <button type="submit" className="btn-md-primary">
                   Simpan
                 </button>
-                <button type="reset" className="btn-sm-secondary">
+                <button type="reset" className="btn-md-secondary">
                   Reset
                 </button>
               </div>

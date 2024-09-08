@@ -14,7 +14,10 @@ export const getProcesses = createAsyncThunk(
       const response = await API.get(`/processes`);
       return response.data;
     } catch (error) {
-      throw new Error(error.message);
+      if (error.response) {
+        return { status: "error", message: error.response.message };
+      }
+      return { status: "error", message: error.message };
     }
   }
 );
@@ -24,9 +27,12 @@ export const createProcess = createAsyncThunk(
   async (data) => {
     try {
       const response = await API.post(`/processes/create`, data);
-      return response;
+      return response.data;
     } catch (error) {
-      throw new Error(error.message);
+      if (error.response) {
+        return { status: "error", message: error.response.message };
+      }
+      return { status: "error", message: error.message };
     }
   }
 );
@@ -36,9 +42,12 @@ export const updateProcess = createAsyncThunk(
   async (id, data) => {
     try {
       const response = await API.patch(`/processes/${id}/update`, data);
-      return response;
+      return response.data;
     } catch (error) {
-      throw new Error(error.message);
+      if (error.response) {
+        return { status: "error", message: error.response.message };
+      }
+      return { status: "error", message: error.message };
     }
   }
 );
@@ -47,9 +56,12 @@ export const deleteProcess = createAsyncThunk(
   async (id) => {
     try {
       const response = await API.delete(`/processes/${id}/delete`);
-      return response;
+      return response.data;
     } catch (error) {
-      throw new Error(error.message);
+      if (error.response) {
+        return { status: "error", message: error.response.message };
+      }
+      return { status: "error", message: error.message };
     }
   }
 );
@@ -65,8 +77,12 @@ const Processeslice = createSlice({
       })
       .addCase(deleteProcess.fulfilled, (state, action) => {
         state.processes = state.processes.filter(
-          (question) => question._id !== action.payload
+          (question) => question._id !== action.payload.id
         ); // Remove the deleted question
+        state.loading = false;
+      })
+      .addCase(createProcess.fulfilled, (state, action) => {
+        state.processes.push(action.payload.process);
         state.loading = false;
       });
   },

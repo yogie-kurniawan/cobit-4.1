@@ -2,27 +2,34 @@ import React, { useState, useEffect, useRef } from "react";
 import Section from "../../../components/admin/Section";
 import SectionTitle from "../../../components/admin/SectionTitle";
 import Box from "../../../components/admin/Box";
-import { Link } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { updateDomain } from "../../../features/admin/domainSlice";
+import { getDomain, updateDomain } from "../../../features/admin/domainSlice";
 import { ToastContainer, toast } from "react-toastify";
 import Input from "../../../components/admin/Input";
 import Label from "../../../components/admin/Label";
 import "react-toastify/dist/ReactToastify.css";
 import Textarea from "../../../components/admin/Textarea";
 
-const dataDomain = {
-  _id: 1,
-  kode: "PO",
-  nama: "Plan and Organize",
-  deskripsi: "",
-};
-
 const EditDomain = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const namaRef = useRef(null);
   const kodeRef = useRef(null);
   const deskripsiRef = useRef(null);
+  const [domain, setDomain] = useState({});
+
+  useEffect(() => {
+    dispatch(getDomain(id))
+      .then((res) => {
+        if (res.payload.status == "error") throw new Error(res.payload.message);
+        setDomain(res.payload.domain);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  }, [id, dispatch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,10 +38,14 @@ const EditDomain = () => {
       nama: namaRef.current.value,
       deskripsi: deskripsiRef.current.value,
     };
-    dispatch(updateDomain(data))
-      .then((response) => {
-        toast.success(response.payload.data.message);
+    dispatch(updateDomain({ id, data }))
+      .then((res) => {
+        if (res.payload.status == "error") throw new Error(res.payload.message);
+        toast.success(res.payload.message, {});
         clearForm();
+        setTimeout(() => {
+          navigate("/admin/domains");
+        }, 1000);
       })
       .catch((error) => {
         toast.error(error.message);
@@ -52,7 +63,7 @@ const EditDomain = () => {
       <Box>
         <div className="mb-8">
           <div className="flex">
-            <Link to="/admin/domains" className="btn-sm-primary">
+            <Link to="/admin/domains" className="btn-md-primary">
               Kembali
             </Link>
           </div>
@@ -67,7 +78,7 @@ const EditDomain = () => {
                   type="text"
                   placeholder="Masukkan Kode..."
                   ref={kodeRef}
-                  value={dataDomain.kode}
+                  value={domain?.kode}
                 />
               </div>
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
@@ -76,7 +87,7 @@ const EditDomain = () => {
                   type="text"
                   placeholder="Masukkan Nama..."
                   ref={namaRef}
-                  value={dataDomain.nama}
+                  value={domain?.nama}
                 />
               </div>
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
@@ -84,15 +95,14 @@ const EditDomain = () => {
                 <Textarea
                   placeholder="Masukkan Deskripsi..."
                   ref={deskripsiRef}
-                >
-                  {dataDomain.deskripsi}
-                </Textarea>
+                  value={domain?.deskripsi}
+                />
               </div>
               <div className="col-span-12 flex gap-1">
-                <button type="submit" className="btn-sm-primary">
+                <button type="submit" className="btn-md-primary">
                   Simpan
                 </button>
-                <button type="reset" className="btn-sm-secondary">
+                <button type="reset" className="btn-md-secondary">
                   Reset
                 </button>
               </div>

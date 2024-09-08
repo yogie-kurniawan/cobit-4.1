@@ -5,12 +5,14 @@ import hashPassword from "../utils/hashPassword.js";
 export const getUsers = async (req, res) => {
   try {
     const users = await User.find({});
-    return res
-      .status(200)
-      .json({ users, message: "Berhasil menangkap semua user!" });
+    return res.status(200).json({
+      users,
+      status: "success",
+      message: "Berhasil menangkap semua user!",
+    });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: error.message });
+    return res.status(400).json({ status: "error", message: error.message });
   }
 };
 
@@ -18,14 +20,18 @@ export const getUser = async (req, res) => {
   const { id: _id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(_id))
-    return res.status(404).json({ message: "Id tidak valid!" });
+    return res
+      .status(404)
+      .json({ status: "error", message: "Id tidak valid!" });
 
   try {
     const user = await User.findById(_id);
-    return res.status(200).json({ user, message: "Berhasil menangkap User!" });
+    return res
+      .status(200)
+      .json({ user, status: "success", message: "Berhasil menangkap User!" });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: error.message });
+    return res.status(400).json({ status: "error", message: error.message });
   }
 };
 
@@ -36,12 +42,14 @@ export const createUser = async (req, res) => {
     password = await hashPassword(password);
     const newUser = new User({ nama, username, email, password });
     await newUser.save();
-    return res
-      .status(201)
-      .json({ user: newUser, message: "Berhasil menyimpan User!" });
+    return res.status(201).json({
+      user: newUser,
+      status: "success",
+      message: "Berhasil menyimpan User!",
+    });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: error.message });
+    return res.status(400).json({ status: "error", message: error.message });
   }
 };
 
@@ -50,7 +58,9 @@ export const updateUser = async (req, res) => {
   let { nama, username, email, password } = req.body;
 
   if (!mongoose.Types.ObjectId.isValid(_id))
-    return res.status(404).json({ message: "Id tidak valid!" });
+    return res
+      .status(404)
+      .json({ status: "error", message: "Id tidak valid!" });
 
   let updatedUser = {};
   try {
@@ -75,11 +85,12 @@ export const updateUser = async (req, res) => {
 
     return res.status(200).json({
       user: updatedUser,
+      status: "success",
       message: "Berhasil memperbaharui User!",
     });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: error.message });
+    return res.status(400).json({ status: "error", message: error.message });
   }
 };
 
@@ -87,13 +98,17 @@ export const deleteUser = async (req, res) => {
   const { id } = req.params;
 
   if (!mongoose.Types.ObjectId.isValid(id))
-    return res.status(404).json({ message: "Id tidak valid!" });
+    return res
+      .status(404)
+      .json({ status: "error", message: "Id tidak valid!" });
 
   try {
     await User.findByIdAndDelete(id);
-    res.status(200).json({ message: "Berhasil menghapus User!" });
+    res
+      .status(200)
+      .json({ id, status: "success", message: "Berhasil menghapus User!" });
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ message: error.message });
+    return res.status(400).json({ status: "error", message: error.message });
   }
 };

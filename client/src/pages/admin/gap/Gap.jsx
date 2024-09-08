@@ -19,7 +19,7 @@ const dataGaps = [
   },
   {
     proses: "DS2",
-    indexSekarang: 4.7,
+    indexSekarang: 3.2,
     indexDiharapkan: 5,
   },
   {
@@ -101,7 +101,7 @@ const Gap = () => {
     },
     {
       name: "Index Sekarang",
-      selector: (row) => row.indexSekarang,
+      selector: (row) => row.indexSekarang.toFixed(2),
       width: "200px",
     },
     {
@@ -120,6 +120,15 @@ const Gap = () => {
     <Section>
       <SectionTitle title="GAP"></SectionTitle>
       <Box>
+        <div className="flex gap-1">
+          <Link
+            target="_blank"
+            to="/admin/gap/print"
+            className="btn-md-secondary"
+          >
+            Cetak
+          </Link>
+        </div>
         <div>
           <DataTable
             columns={columns}

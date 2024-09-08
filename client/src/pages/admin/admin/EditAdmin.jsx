@@ -8,30 +8,30 @@ import { getAdmin, updateAdmin } from "../../../features/admin/adminSlice";
 import { ToastContainer, toast } from "react-toastify";
 import Input from "../../../components/admin/Input";
 import Label from "../../../components/admin/Label";
+import { useNavigate } from "react-router-dom";
 import "react-toastify/dist/ReactToastify.css";
-
-const dataAdmin = {
-  _id: 1,
-  nama: "John",
-  username: "john",
-  password: "123",
-  noTelepon: "082388382700",
-};
 
 const EditAdmin = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const namaRef = useRef(null);
   const usernameRef = useRef(null);
   const noTeleponRef = useRef(null);
   const passwordRef = useRef(null);
 
-  useEffect(() => {
-    dispatch(getAdmin(id));
-  }, [dispatch]);
+  const [admin, setAdmin] = useState({});
 
-  const admin = useSelector((state) => state.admins.admin);
-  console.log(id, admin);
+  useEffect(() => {
+    dispatch(getAdmin(id))
+      .then((res) => {
+        if (res.payload.status == "error") throw new Error(res.payload.message);
+        setAdmin(res.payload.admin);
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
+  }, [id, dispatch]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -41,10 +41,14 @@ const EditAdmin = () => {
       noTelepon: noTeleponRef.current.value,
       password: passwordRef.current.value,
     };
-    dispatch(updateAdmin(id, data))
-      .then((response) => {
-        toast.success(response.payload.data.message);
+    dispatch(updateAdmin({ id, data }))
+      .then((res) => {
+        if (res.payload.status == "error") throw new Error(res.payload.message);
+        toast.success(res.payload.message, {});
         clearForm();
+        setTimeout(() => {
+          navigate("/admin/admins");
+        }, 1000);
       })
       .catch((error) => {
         toast.error(error.message);
@@ -63,7 +67,7 @@ const EditAdmin = () => {
       <Box>
         <div className="mb-8">
           <div className="flex">
-            <Link to="/admin/admins" className="btn-sm-primary">
+            <Link to="/admin/admins" className="btn-md-primary">
               Kembali
             </Link>
           </div>
@@ -78,7 +82,7 @@ const EditAdmin = () => {
                   type="text"
                   placeholder="Masukkan nama..."
                   ref={namaRef}
-                  value={admin.nama}
+                  value={admin && admin.nama}
                 />
               </div>
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
@@ -87,7 +91,7 @@ const EditAdmin = () => {
                   type="text"
                   placeholder="Masukkan username..."
                   ref={usernameRef}
-                  value={admin.username}
+                  value={admin && admin.username}
                 />
               </div>
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
@@ -96,7 +100,7 @@ const EditAdmin = () => {
                   type="text"
                   placeholder="Masukkan No Telepon..."
                   ref={noTeleponRef}
-                  value={admin.noTelepon}
+                  value={admin && admin.noTelepon}
                 />
               </div>
               <div className="col-span-12 md:col-span-6 flex flex-col gap-1">
@@ -108,10 +112,10 @@ const EditAdmin = () => {
                 />
               </div>
               <div className="col-span-12 flex gap-1">
-                <button type="submit" className="btn-sm-primary">
+                <button type="submit" className="btn-md-primary">
                   Simpan
                 </button>
-                <button type="reset" className="btn-sm-secondary">
+                <button type="reset" className="btn-md-secondary">
                   Reset
                 </button>
               </div>

@@ -75,12 +75,12 @@ const Navbar = () => {
           </ul>
           {!isLoggedIn ? (
             <div className="flex items-center justify-center gap-2">
-              <a href="" className="btn-sm-primary">
+              <Link to="/login" className="btn-md-primary">
                 Login
-              </a>
-              <a href="" className="btn-sm-secondary">
+              </Link>
+              <Link to="/register" className="btn-md-secondary">
                 Register
-              </a>
+              </Link>
             </div>
           ) : (
             ""
@@ -115,10 +115,10 @@ const Navbar = () => {
           ))}
         </ul>
         <div className="flex items-center justify-center gap-2">
-          <Link to="/register" className="btn-sm-secondary">
+          <Link to="/register" className="btn-md-secondary">
             Registrasi
           </Link>
-          <Link to="/login" className="btn-sm-primary">
+          <Link to="/login" className="btn-md-primary">
             Login
           </Link>
         </div>

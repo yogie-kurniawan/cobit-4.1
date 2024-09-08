@@ -32,22 +32,37 @@ const Domain = () => {
     toast(
       <div>
         <p>Anda yakin ingin menghapus?</p>
-        <button
-          onClick={() => {
-            dispatch(deleteDomain(id));
-            toast.dismiss(); // Dismiss the toast after confirmation
-          }}
-        >
-          Yes
-        </button>
-        <button onClick={handleCancel}>No</button>
+        <div className="flex gap-2 mt-2">
+          <button
+            onClick={() => {
+              dispatch(deleteDomain(id))
+                .then((response) => {
+                  if (!response.payload.error) {
+                    toast.success(response.payload.message);
+                  } else {
+                    toast.error(response.payload.message);
+                  }
+                })
+                .catch((error) => {
+                  toast.error(error.message);
+                });
+              toast.dismiss();
+            }}
+            className="btn-md-secondary"
+          >
+            Yes
+          </button>
+          <button onClick={handleCancel} className="btn-md-primary">
+            No
+          </button>
+        </div>
       </div>,
       {
         position: "top-right",
         autoClose: false,
         closeOnClick: false,
         draggable: false,
-        theme: "light",
+        theme: "colored",
       }
     );
   };
@@ -102,9 +117,16 @@ const Domain = () => {
       <SectionTitle title="Domain"></SectionTitle>
       <Box>
         <div className="mb-8">
-          <div className="flex">
-            <Link to="/admin/domains/create" className="btn-sm-primary">
+          <div className="flex gap-1">
+            <Link to="/admin/domains/create" className="btn-md-primary">
               Tambah
+            </Link>
+            <Link
+              target="_blank"
+              to="/admin/domains/print"
+              className="btn-md-secondary"
+            >
+              Cetak
             </Link>
           </div>
         </div>

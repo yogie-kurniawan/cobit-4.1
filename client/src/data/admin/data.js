@@ -7,6 +7,7 @@ import { ImSpinner6 } from "react-icons/im";
 import { TbReportAnalytics } from "react-icons/tb";
 import { RiFundsBoxLine } from "react-icons/ri";
 import { BiDonateHeart } from "react-icons/bi";
+import { HiOutlineDocumentReport } from "react-icons/hi";
 
 export const menu = [
   {
@@ -51,7 +52,7 @@ export const menu = [
     ],
   },
   {
-    title: "Laporan",
+    title: "Hasil",
     links: [
       {
         id: 1,
@@ -64,6 +65,17 @@ export const menu = [
         url: "/admin/gaps",
         text: "Gap",
         icon: <RiFundsBoxLine size={20} />,
+      },
+    ],
+  },
+  {
+    title: "Laporan",
+    links: [
+      {
+        id: 1,
+        url: "/admin/report",
+        text: "Laporan",
+        icon: <HiOutlineDocumentReport size={20} />,
       },
     ],
   },

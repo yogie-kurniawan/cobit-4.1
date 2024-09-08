@@ -6,7 +6,6 @@ const saltRounds = parseInt(process.env.SALT_ROUNDS);
 
 export const handleRegister = async (req, res) => {
   const { nama, username, password, noTelepon } = req.body;
-  console.log(req.body);
 
   // Validation
   if (!nama) {
@@ -38,7 +37,7 @@ export const handleRegister = async (req, res) => {
     });
 
     const save = await newUser.save();
-    return res.status(201).json({ user: save });
+    return res.status(201).json({ status: "success", user: save });
   } catch (err) {
     if (err.code === 11000) {
       const duplicateField = Object.keys(err.keyPattern)[0];
@@ -65,7 +64,7 @@ export const handleLogin = async (req, res) => {
   }
 
   try {
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ status: "success", username });
     if (!user) {
       return res
         .status(404)
@@ -165,5 +164,5 @@ export const handleAdminLogin = async (req, res) => {
 export const logout = (req, res, next) => {
   req.session.destroy();
   res.clearCookie("token");
-  return res.redirect("/login");
+  return { status: "success", message: "Berhasil logout!" };
 };

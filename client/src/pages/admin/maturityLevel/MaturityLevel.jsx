@@ -17,24 +17,70 @@ const ml = [
     jumlahPertanyaan: 10,
     jumlahResponden: 12,
     jumlahNilai: 49,
-    jumlahML: 4.9,
     index: 4.9,
   },
   {
     proses: "DS2",
     jumlahPertanyaan: 10,
     jumlahResponden: 12,
-    jumlahNilai: 47,
-    jumlahML: 4.7,
-    index: 4.7,
+    jumlahNilai: 32,
+    index: 3.2,
   },
   {
     proses: "DS3",
     jumlahPertanyaan: 10,
     jumlahResponden: 12,
     jumlahNilai: 46,
-    jumlahML: 4.6,
     index: 4.6,
+  },
+  {
+    proses: "DS4",
+    jumlahPertanyaan: 10,
+    jumlahResponden: 12,
+    jumlahNilai: 47,
+    index: 4.7,
+  },
+  {
+    proses: "DS5",
+    jumlahPertanyaan: 10,
+    jumlahResponden: 12,
+    jumlahNilai: 44,
+    index: 4.4,
+  },
+  {
+    proses: "DS6",
+    jumlahPertanyaan: 10,
+    jumlahResponden: 12,
+    jumlahNilai: 49,
+    index: 4.9,
+  },
+  {
+    proses: "ME1",
+    jumlahPertanyaan: 10,
+    jumlahResponden: 12,
+    jumlahNilai: 49,
+    index: 4.9,
+  },
+  {
+    proses: "ME2",
+    jumlahPertanyaan: 10,
+    jumlahResponden: 12,
+    jumlahNilai: 48,
+    index: 4.8,
+  },
+  {
+    proses: "ME3",
+    jumlahPertanyaan: 10,
+    jumlahResponden: 12,
+    jumlahNilai: 46,
+    index: 4.6,
+  },
+  {
+    proses: "ME4",
+    jumlahPertanyaan: 10,
+    jumlahResponden: 12,
+    jumlahNilai: 28,
+    index: 2.8,
   },
 ];
 
@@ -58,14 +104,12 @@ const MaturityLevel = () => {
       acc.jumlahPertanyaan += row.jumlahPertanyaan;
       acc.jumlahResponden += row.jumlahResponden;
       acc.jumlahNilai += row.jumlahNilai;
-      acc.jumlahML += row.jumlahML;
       acc.index += row.index;
 
       // Round the results to 2 decimal places
       acc.jumlahPertanyaan = parseFloat(acc.jumlahPertanyaan.toFixed(2));
       acc.jumlahResponden = parseFloat(acc.jumlahResponden.toFixed(2));
       acc.jumlahNilai = parseFloat(acc.jumlahNilai.toFixed(2));
-      acc.jumlahML = parseFloat(acc.jumlahML.toFixed(2));
       acc.index = parseFloat(acc.index.toFixed(2));
 
       return acc;
@@ -75,7 +119,6 @@ const MaturityLevel = () => {
       jumlahPertanyaan: 0,
       jumlahResponden: 0,
       jumlahNilai: 0,
-      jumlahML: 0,
       index: 0,
     }
   );
@@ -107,11 +150,6 @@ const MaturityLevel = () => {
       width: "150px",
     },
     {
-      name: "Jumlah Nilai / Jumlah Pertanyaan",
-      selector: (row) => row.jumlahML,
-      width: "150px",
-    },
-    {
       name: "Index",
       selector: (row) => row.index,
       width: "150px",
@@ -122,6 +160,15 @@ const MaturityLevel = () => {
     <Section>
       <SectionTitle title="Maturity Level"></SectionTitle>
       <Box>
+        <div className="flex gap-1">
+          <Link
+            target="_blank"
+            to="/admin/maturity-level/print"
+            className="btn-md-secondary"
+          >
+            Cetak
+          </Link>
+        </div>
         <div className="mb-6">
           <ToastContainer />
           <DataTable

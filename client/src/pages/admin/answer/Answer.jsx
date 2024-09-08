@@ -32,12 +32,12 @@ const Question = () => {
     },
     {
       name: "User",
-      selector: (row) => row.user.nama,
+      selector: (row) => row.user?.nama || "",
       width: "100px",
     },
     {
       name: "Pertanyaan",
-      selector: (row) => row.pertanyaan.pertanyaan,
+      selector: (row) => row.question?.pertanyaan || "",
       width: "300px",
     },
     {
@@ -51,6 +51,17 @@ const Question = () => {
     <Section>
       <SectionTitle title="Jawaban"></SectionTitle>
       <Box>
+        <div className="mb-8">
+          <div className="flex">
+            <Link
+              to="/admin/answers/print"
+              target="_blank"
+              className="btn-md-secondary"
+            >
+              Cetak
+            </Link>
+          </div>
+        </div>
         <div>
           <ToastContainer />
           <DataTable

@@ -6,7 +6,14 @@ import MainRoute from "./routes/Main";
 import AdminRoute from "./routes/Admin";
 import { SidebarProvider } from "./context/admin/SidebarContext";
 import { AuthProvider } from "./hooks/useAuth";
-import { Login } from "./pages/admin/index";
+import {
+  Login,
+  PrintQuestion,
+  PrintProcess,
+  PrintDomain,
+  PrintAnswer,
+  PrintReport,
+} from "./pages/admin/index";
 const AppRoutes = () => {
   return (
     <AuthProvider>
@@ -19,7 +26,12 @@ const AppRoutes = () => {
 
           {/* Admin Layout Routes */}
           <Route path="/admin/login" element={<Login />} />
-          {/* <Route
+          <Route path="/admin/domains/print" element={<PrintDomain />} />
+          <Route path="/admin/processes/print" element={<PrintProcess />} />
+          <Route path="/admin/questions/print" element={<PrintQuestion />} />
+          <Route path="/admin/answers/print" element={<PrintAnswer />} />
+          <Route path="/admin/report/print" element={<PrintReport />} />
+          <Route
             path="/admin"
             element={
               <SidebarProvider>
@@ -28,7 +40,7 @@ const AppRoutes = () => {
             }
           >
             {AdminRoute()}
-          </Route> */}
+          </Route>
         </Routes>
       </Router>
     </AuthProvider>

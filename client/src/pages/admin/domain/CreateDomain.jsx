@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import Section from "../../../components/admin/Section";
 import SectionTitle from "../../../components/admin/SectionTitle";
 import Box from "../../../components/admin/Box";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { createDomain } from "../../../features/admin/domainSlice";
 import { ToastContainer, toast } from "react-toastify";
@@ -13,6 +13,7 @@ import Textarea from "../../../components/admin/Textarea";
 
 const CreateDomain = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const namaRef = useRef(null);
   const kodeRef = useRef(null);
   const deskripsiRef = useRef(null);
@@ -24,10 +25,14 @@ const CreateDomain = () => {
       nama: namaRef.current.value,
       deskripsi: deskripsiRef.current.value,
     };
-    dispatch(createDomain(data))
-      .then((response) => {
-        toast.success(response.payload.data.message);
+    dispatch(createDomain({ data }))
+      .then((res) => {
+        if (res.payload.status == "error") throw new Error(res.payload.message);
+        toast.success(res.payload.message);
         clearForm();
+        setTimeout(() => {
+          navigate("/admin/domains");
+        }, 1000);
       })
       .catch((error) => {
         toast.error(error.message);
@@ -45,7 +50,7 @@ const CreateDomain = () => {
       <Box>
         <div className="mb-8">
           <div className="flex">
-            <Link to="/admin/domains" className="btn-sm-primary">
+            <Link to="/admin/domains" className="btn-md-primary">
               Kembali
             </Link>
           </div>
@@ -78,10 +83,10 @@ const CreateDomain = () => {
                 ></Textarea>
               </div>
               <div className="col-span-12 flex gap-1">
-                <button type="submit" className="btn-sm-primary">
+                <button type="submit" className="btn-md-primary">
                   Simpan
                 </button>
-                <button type="reset" className="btn-sm-secondary">
+                <button type="reset" className="btn-md-secondary">
                   Reset
                 </button>
               </div>

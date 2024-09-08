@@ -17,11 +17,18 @@ import {
 const Process = () => {
   const dispatch = useDispatch();
   const processes = useSelector((state) => state.processes.processes);
-  console.log(processes);
   const [rowsPerPage, setRowsPerPage] = useState(10);
 
   useEffect(() => {
-    dispatch(getProcesses());
+    dispatch(getProcesses())
+      .then((response) => {
+        if (response.payload.error) {
+          toast.error(response.payload.message);
+        }
+      })
+      .catch((error) => {
+        toast.error(error.message);
+      });
   }, [dispatch]);
 
   const handleRowsPerPage = (newPerPage) => {
@@ -32,15 +39,30 @@ const Process = () => {
     toast(
       <div>
         <p>Anda yakin ingin menghapus?</p>
-        <button
-          onClick={() => {
-            dispatch(deleteProcess(id));
-            toast.dismiss(); // Dismiss the toast after confirmation
-          }}
-        >
-          Yes
-        </button>
-        <button onClick={handleCancel}>No</button>
+        <div className="flex gap-2 mt-2">
+          <button
+            onClick={() => {
+              dispatch(deleteProcess(id))
+                .then((response) => {
+                  if (!response.payload.error) {
+                    toast.success(response.payload.message);
+                  } else {
+                    toast.error(response.payload.message);
+                  }
+                })
+                .catch((error) => {
+                  toast.error(error.message);
+                });
+              toast.dismiss();
+            }}
+            className="btn-md-secondary"
+          >
+            Yes
+          </button>
+          <button onClick={handleCancel} className="btn-md-primary">
+            No
+          </button>
+        </div>
       </div>,
       {
         position: "top-right",
@@ -106,14 +128,22 @@ const Process = () => {
     <Section>
       <SectionTitle title="Proses"></SectionTitle>
       <Box>
-        <div className="mb-8">
-          <div className="flex">
-            <Link to="/admin/processes/create" className="btn-sm-primary">
+        <div className="mb-8 ">
+          <div className="flex gap-1">
+            <Link to="/admin/processes/create" className="btn-md-primary">
               Tambah
+            </Link>
+            <Link
+              target="_blank"
+              to="/admin/processes/print"
+              className="btn-md-secondary"
+            >
+              Cetak
             </Link>
           </div>
         </div>
         <div>
+          <ToastContainer />
           <DataTable
             columns={columns}
             data={processes}
@@ -121,7 +151,6 @@ const Process = () => {
             paginationPerPage={rowsPerPage}
             onChangeRowsPerPage={handleRowsPerPage}
           />
-          {/* <ToastContainer /> */}
         </div>
       </Box>
     </Section>

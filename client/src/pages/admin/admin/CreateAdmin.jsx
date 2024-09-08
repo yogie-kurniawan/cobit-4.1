@@ -28,10 +28,13 @@ const CreateAdmin = () => {
       password: passwordRef.current.value,
     };
     dispatch(createAdmin(data))
-      .then((response) => {
-        toast.success(response.payload.message);
+      .then((res) => {
+        if (res.payload.status == "error") throw new Error(res.payload.message);
+        toast.success(res.payload.message);
         clearForm();
-        navigate("/admin/admins");
+        setTimeout(() => {
+          navigate("/admin/admins");
+        }, 1000);
       })
       .catch((error) => {
         toast.error(error.message);
@@ -50,7 +53,7 @@ const CreateAdmin = () => {
       <Box>
         <div className="mb-8">
           <div className="flex">
-            <Link to="/admin/admins" className="btn-sm-primary">
+            <Link to="/admin/admins" className="btn-md-primary">
               Kembali
             </Link>
           </div>
@@ -92,10 +95,10 @@ const CreateAdmin = () => {
                 />
               </div>
               <div className="col-span-12 flex gap-1">
-                <button type="submit" className="btn-sm-primary">
+                <button type="submit" className="btn-md-primary">
                   Simpan
                 </button>
-                <button type="reset" className="btn-sm-secondary">
+                <button type="reset" className="btn-md-secondary">
                   Reset
                 </button>
               </div>

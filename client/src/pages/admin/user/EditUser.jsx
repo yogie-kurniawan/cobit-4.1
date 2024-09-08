@@ -58,7 +58,7 @@ const EditUser = () => {
       <Box>
         <div className="mb-8">
           <div className="flex">
-            <Link to="/admin/users" className="btn-sm-primary">
+            <Link to="/admin/users" className="btn-md-primary">
               Kembali
             </Link>
           </div>
@@ -103,10 +103,10 @@ const EditUser = () => {
                 />
               </div>
               <div className="col-span-12 flex gap-1">
-                <button type="submit" className="btn-sm-primary">
+                <button type="submit" className="btn-md-primary">
                   Simpan
                 </button>
-                <button type="reset" className="btn-sm-secondary">
+                <button type="reset" className="btn-md-secondary">
                   Reset
                 </button>
               </div>
